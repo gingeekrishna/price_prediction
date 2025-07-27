@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Logs</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Vehicle Price Prediction Logs</h2>
+    <table id="logsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Vehicle Age</th>
+                <th>Mileage</th>
+                <th>Predicted Price</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        fetch("/logs")
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.querySelector("#logsTable tbody");
+                data.logs.forEach(log => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${log.id}</td>
+                        <td>${log.vehicle_age}</td>
+                        <td>${log.mileage}</td>
+                        <td>$${log.predicted_price.toFixed(2)}</td>
+                        <td>${new Date(log.timestamp).toLocaleString()}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            });
+    </script>
+</body>
+</html>

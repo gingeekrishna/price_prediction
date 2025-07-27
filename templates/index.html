@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vehicle Price Predictor</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        label { display: block; margin: 10px 0 5px; }
+        input[type="number"] { padding: 8px; width: 200px; }
+        button { padding: 10px 20px; margin-top: 10px; }
+        .result { margin-top: 20px; font-weight: bold; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h2>Vehicle Price Predictor</h2>
+    <form id="predictForm">
+        <label for="age">Vehicle Age (in years):</label>
+        <input type="number" id="age" name="age" min="0" required>
+
+        <label for="mileage">Mileage (in km):</label>
+        <input type="number" id="mileage" name="mileage" min="0" required>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    <div class="result" id="predictionResult"></div>
+    <div class="error" id="errorMessage"></div>
+
+    <script>
+        document.getElementById("predictForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const age = document.getElementById("age").value;
+            const mileage = document.getElementById("mileage").value;
+            const resultDiv = document.getElementById("predictionResult");
+            const errorDiv = document.getElementById("errorMessage");
+
+            resultDiv.textContent = "";
+            errorDiv.textContent = "";
+
+            if (!age || !mileage || age < 0 || mileage < 0) {
+                errorDiv.textContent = "Please enter valid values for both fields.";
+                return;
+            }
+
+            fetch("/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ vehicle_age: Number(age), mileage: Number(mileage) })
+            })
+            .then(res => {
+                if (!res.ok) throw new Error("Prediction failed.");
+                return res.json();
+            })
+            .then(data => {
+                resultDiv.textContent = `💰 Estimated Price: $${data.predicted_price.toFixed(2)}`;
+            })
+            .catch(err => {
+                errorDiv.textContent = err.message;
+            });
+        });
+    </script>
+</body>
+</html>

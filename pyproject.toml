@@ -1,0 +1,52 @@
+[tool.pytest.ini_options]
+# Pytest configuration for Vehicle Price Prediction project
+
+# Test discovery patterns
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+# Output and reporting options
+addopts = [
+    "-v",                    # Verbose output
+    "--tb=short",           # Short traceback format
+    "--strict-markers",     # Strict marker checking
+    "--disable-warnings",   # Disable pytest warnings
+    "--color=yes",          # Colored output
+    "--durations=10",       # Show 10 slowest tests
+]
+
+# Markers for test categorization
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "smoke: marks tests as smoke tests for quick validation",
+]
+
+# Minimum version requirements
+minversion = "6.0"
+
+# Test file patterns to ignore
+norecursedirs = [
+    ".*",
+    "build",
+    "dist",
+    "CVS",
+    "_darcs",
+    "{arch}",
+    "*.egg",
+    "venv",
+    "env",
+    "__pycache__"
+]
+
+# Log configuration for tests
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(name)s: %(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+# Coverage options (if using pytest-cov)
+# addopts = ["--cov=src", "--cov-report=html", "--cov-report=term-missing"]

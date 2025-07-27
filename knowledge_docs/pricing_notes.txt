@@ -1,0 +1,2 @@
+Vehicle prices depend on age, mileage, market trends, and fuel costs. Newer vehicles with lower mileage typically have higher resale value.
+Fuel price fluctuations can also affect the used car market.

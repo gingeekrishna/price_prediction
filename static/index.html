@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vehicle Price Predictor</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; max-width: 600px; margin: auto; }
+    input, button { padding: 0.5rem; margin-top: 0.5rem; width: 100%; }
+    #result { margin-top: 2rem; background: #f9f9f9; padding: 1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>🚗 Vehicle Price Predictor</h1>
+
+  <label for="vehicle_age">Vehicle Age (years):</label>
+  <input type="number" id="vehicle_age" placeholder="e.g., 3">
+
+  <label for="mileage">Mileage (km):</label>
+  <input type="number" id="mileage" placeholder="e.g., 40000">
+
+  <button onclick="predictPrice()">Predict Price</button>
+
+  <div id="result"></div>
+
+  <script>
+    async function predictPrice() {
+      const age = document.getElementById('vehicle_age').value;
+      const mileage = document.getElementById('mileage').value;
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = "Loading...";
+
+      try {
+        const response = await fetch("http://localhost:8000/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ vehicle_age: Number(age), mileage: Number(mileage) })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          resultDiv.innerHTML = `
+            <p><strong>Predicted Price:</strong> $${data.predicted_price.toLocaleString()}</p>
+            <p><strong>Market Index:</strong> ${data.market_data.market_index}</p>
+            <p><strong>Fuel Price:</strong> $${data.market_data.fuel_price}</p>
+            <p><strong>Explanation:</strong> ${data.explanation}</p>
+          `;
+        } else {
+          resultDiv.innerHTML = `<p style="color: red;">Error: ${data.detail}</p>`;
+        }
+      } catch (err) {
+        resultDiv.innerHTML = `<p style="color: red;">Request failed: ${err.message}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
