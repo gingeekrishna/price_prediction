@@ -6,107 +6,86 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         
-        <!-- Title -->
         <mxCell id="title" value="Vehicle Price Prediction System - Architecture &amp; Flow" style="text;strokeColor=none;fillColor=none;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="284" y="20" width="600" height="40" as="geometry" />
         </mxCell>
         
-        <!-- Client Layer -->
         <mxCell id="client-layer" value="CLIENT LAYER" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
           <mxGeometry x="50" y="80" width="1070" height="40" as="geometry" />
         </mxCell>
         
-        <!-- Web Browser -->
         <mxCell id="web-browser" value="Web Browser&#xa;(HTML Interface)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="80" y="140" width="120" height="60" as="geometry" />
         </mxCell>
         
-        <!-- API Client -->
         <mxCell id="api-client" value="API Client&#xa;(REST/JSON)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="240" y="140" width="120" height="60" as="geometry" />
         </mxCell>
         
-        <!-- Mobile App -->
         <mxCell id="mobile-app" value="Mobile App&#xa;(Future)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;opacity=50;" vertex="1" parent="1">
           <mxGeometry x="400" y="140" width="120" height="60" as="geometry" />
         </mxCell>
         
-        <!-- Swagger UI -->
         <mxCell id="swagger-ui" value="Swagger UI&#xa;(/docs)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="560" y="140" width="120" height="60" as="geometry" />
         </mxCell>
         
-        <!-- API Gateway Layer -->
         <mxCell id="api-layer" value="API GATEWAY LAYER" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
           <mxGeometry x="50" y="240" width="1070" height="40" as="geometry" />
         </mxCell>
         
-        <!-- FastAPI Server -->
         <mxCell id="fastapi-server" value="FastAPI Server&#xa;(Uvicorn)&#xa;:8000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="300" y="300" width="200" height="80" as="geometry" />
         </mxCell>
         
-        <!-- CORS Middleware -->
         <mxCell id="cors" value="CORS&#xa;Middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
           <mxGeometry x="120" y="320" width="80" height="40" as="geometry" />
         </mxCell>
         
-        <!-- Error Handling -->
         <mxCell id="error-handler" value="Error&#xa;Handling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
           <mxGeometry x="220" y="320" width="80" height="40" as="geometry" />
         </mxCell>
         
-        <!-- Static Files -->
         <mxCell id="static-files" value="Static Files&#xa;Handler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
           <mxGeometry x="520" y="320" width="80" height="40" as="geometry" />
         </mxCell>
         
-        <!-- Templates -->
         <mxCell id="templates" value="Jinja2&#xa;Templates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
           <mxGeometry x="620" y="320" width="80" height="40" as="geometry" />
         </mxCell>
         
-        <!-- Business Logic Layer -->
         <mxCell id="business-layer" value="BUSINESS LOGIC LAYER (Multi-Agent System)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="50" y="420" width="1070" height="40" as="geometry" />
         </mxCell>
         
-        <!-- Main Agent -->
         <mxCell id="main-agent" value="Vehicle Price Agent&#xa;(Main Orchestrator)&#xa;&#xa;• Perceive-Decide-Act Pattern&#xa;• Coordinates all agents&#xa;• Manages prediction flow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="80" y="480" width="140" height="100" as="geometry" />
         </mxCell>
         
-        <!-- Model Agent -->
         <mxCell id="model-agent" value="Price Model Agent&#xa;&#xa;• Loads ML model (Random Forest)&#xa;• Feature preprocessing&#xa;• Price prediction&#xa;• Model validation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="240" y="480" width="140" height="100" as="geometry" />
         </mxCell>
         
-        <!-- Market Agent -->
         <mxCell id="market-agent" value="Market Data Agent&#xa;&#xa;• Real-time market trends&#xa;• External API integration&#xa;• Market index calculation&#xa;• Fuel price tracking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="400" y="480" width="140" height="100" as="geometry" />
         </mxCell>
         
-        <!-- Explainer Agent -->
         <mxCell id="explainer-agent" value="Explainer Agent&#xa;&#xa;• AI-powered explanations&#xa;• Feature importance&#xa;• Price justification&#xa;• FAISS vector search" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="560" y="480" width="140" height="100" as="geometry" />
         </mxCell>
         
-        <!-- Insight Agent -->
         <mxCell id="insight-agent" value="Insight Agent&#xa;&#xa;• Market recommendations&#xa;• Price trend analysis&#xa;• Investment advice&#xa;• Risk assessment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="720" y="480" width="140" height="100" as="geometry" />
         </mxCell>
         
-        <!-- Logger Agent -->
         <mxCell id="logger-agent" value="Logger Agent&#xa;&#xa;• Prediction logging&#xa;• Audit trail&#xa;• Performance metrics&#xa;• Error tracking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="880" y="480" width="140" height="100" as="geometry" />
         </mxCell>
         
-        <!-- Data Layer -->
         <mxCell id="data-layer" value="DATA LAYER" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
           <mxGeometry x="50" y="620" width="1070" height="40" as="geometry" />
         </mxCell>
         
-        <!-- Data Sources -->
         <mxCell id="historical-data" value="Historical Vehicle Data&#xa;(CSV)&#xa;&#xa;• Vehicle age&#xa;• Mileage&#xa;• Price history&#xa;• Make/Model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f3ff;strokeColor=#0066cc;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="80" y="680" width="120" height="80" as="geometry" />
         </mxCell>
@@ -135,7 +114,6 @@
           <mxGeometry x="920" y="680" width="120" height="80" as="geometry" />
         </mxCell>
         
-        <!-- Arrows - Client to API -->
         <mxCell id="arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="web-browser" target="fastapi-server">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -148,12 +126,10 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         
-        <!-- Arrows - API to Agents -->
         <mxCell id="arrow4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#28a745;" edge="1" parent="1" source="fastapi-server" target="main-agent">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         
-        <!-- Agent Interactions -->
         <mxCell id="arrow5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#28a745;" edge="1" parent="1" source="main-agent" target="model-agent">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -174,7 +150,6 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         
-        <!-- Data Connections -->
         <mxCell id="arrow10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#0066cc;" edge="1" parent="1" source="model-agent" target="ml-model">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -199,7 +174,6 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         
-        <!-- Legend -->
         <mxCell id="legend-title" value="LEGEND" style="text;strokeColor=none;fillColor=none;html=1;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="1200" y="80" width="80" height="30" as="geometry" />
         </mxCell>
@@ -234,77 +208,62 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         
-        <!-- Title -->
         <mxCell id="flow-title" value="Vehicle Price Prediction - Data Flow &amp; Process" style="text;strokeColor=none;fillColor=none;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="284" y="20" width="600" height="40" as="geometry" />
         </mxCell>
         
-        <!-- User Input -->
         <mxCell id="user-input" value="1. User Input&#xa;&#xa;• Vehicle Age: 5 years&#xa;• Mileage: 50,000 miles&#xa;• Make: Toyota&#xa;• Model: Camry" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="80" y="100" width="150" height="80" as="geometry" />
         </mxCell>
         
-        <!-- API Request -->
         <mxCell id="api-request" value="2. API Request&#xa;&#xa;POST /predict&#xa;Content-Type: application/json&#xa;{&#xa;  vehicle_age: 5,&#xa;  mileage: 50000,&#xa;  make: &quot;Toyota&quot;,&#xa;  model: &quot;Camry&quot;&#xa;}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="280" y="100" width="180" height="80" as="geometry" />
         </mxCell>
         
-        <!-- Main Agent Processing -->
         <mxCell id="main-processing" value="3. Main Agent Processing&#xa;&#xa;• Validate input data&#xa;• Initialize prediction context&#xa;• Coordinate agent tasks&#xa;• Orchestrate workflow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
           <mxGeometry x="500" y="100" width="160" height="80" as="geometry" />
         </mxCell>
         
-        <!-- Data Loading -->
         <mxCell id="data-loading" value="4. Data Loading &amp; Merging&#xa;&#xa;• Load historical_vehicle_data.csv&#xa;• Load market_trends.csv&#xa;• Merge on date column&#xa;• Handle missing values" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="80" y="220" width="160" height="80" as="geometry" />
         </mxCell>
         
-        <!-- Feature Engineering -->
         <mxCell id="feature-engineering" value="5. Feature Engineering&#xa;&#xa;• Extract features:&#xa;  - vehicle_age&#xa;  - mileage&#xa;  - market_index&#xa;  - fuel_price&#xa;• Normalize/scale data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="280" y="220" width="160" height="80" as="geometry" />
         </mxCell>
         
-        <!-- Model Prediction -->
         <mxCell id="model-prediction" value="6. ML Model Prediction&#xa;&#xa;• Load Random Forest model&#xa;• Validate 4 features&#xa;• Make prediction&#xa;• Return price: $16,712.50" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="480" y="220" width="160" height="80" as="geometry" />
         </mxCell>
         
-        <!-- Market Analysis -->
         <mxCell id="market-analysis" value="7. Market Analysis&#xa;&#xa;• Fetch current market trends&#xa;• Calculate market adjustments&#xa;• Analyze seasonal factors&#xa;• Get fuel price impact" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="680" y="220" width="160" height="80" as="geometry" />
         </mxCell>
         
-        <!-- AI Explanation -->
         <mxCell id="ai-explanation" value="8. AI Explanation Generation&#xa;&#xa;• Use FAISS vector search&#xa;• Generate price justification&#xa;• Explain feature importance&#xa;• Provide reasoning" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="880" y="220" width="160" height="80" as="geometry" />
         </mxCell>
         
-        <!-- Insights Generation -->
         <mxCell id="insights-generation" value="9. Insights &amp; Recommendations&#xa;&#xa;• Market recommendation&#xa;• Price trend analysis&#xa;• Investment advice&#xa;• Risk assessment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="80" y="340" width="160" height="80" as="geometry" />
         </mxCell>
         
-        <!-- Logging -->
         <mxCell id="logging" value="10. Prediction Logging&#xa;&#xa;• Log to SQLite database&#xa;• Store prediction details&#xa;• Record timestamp&#xa;• Track performance metrics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="280" y="340" width="160" height="80" as="geometry" />
         </mxCell>
         
-        <!-- Response Assembly -->
         <mxCell id="response-assembly" value="11. Response Assembly&#xa;&#xa;• Aggregate all results&#xa;• Format JSON response&#xa;• Include all agent outputs&#xa;• Validate response structure" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="480" y="340" width="160" height="80" as="geometry" />
         </mxCell>
         
-        <!-- Final Response -->
         <mxCell id="final-response" value="12. API Response&#xa;&#xa;{&#xa;  &quot;predicted_price&quot;: 16712.50,&#xa;  &quot;explanation&quot;: &quot;Based on...&quot;,&#xa;  &quot;recommendation&quot;: &quot;Good value...&quot;,&#xa;  &quot;market_data&quot;: {...},&#xa;  &quot;confidence&quot;: 0.85&#xa;}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="680" y="340" width="180" height="80" as="geometry" />
         </mxCell>
         
-        <!-- User Display -->
         <mxCell id="user-display" value="13. User Display&#xa;&#xa;• Show predicted price&#xa;• Display explanation&#xa;• Present recommendations&#xa;• Visualize insights" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="900" y="340" width="160" height="80" as="geometry" />
         </mxCell>
         
-        <!-- Flow Arrows -->
         <mxCell id="flow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="user-input" target="api-request">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -363,7 +322,6 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         
-        <!-- Performance Metrics -->
         <mxCell id="performance-title" value="PERFORMANCE METRICS" style="text;strokeColor=none;fillColor=none;html=1;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="80" y="460" width="200" height="30" as="geometry" />
         </mxCell>
@@ -372,7 +330,6 @@
           <mxGeometry x="80" y="500" width="350" height="100" as="geometry" />
         </mxCell>
         
-        <!-- Technology Stack -->
         <mxCell id="tech-title" value="TECHNOLOGY STACK" style="text;strokeColor=none;fillColor=none;html=1;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="500" y="460" width="200" height="30" as="geometry" />
         </mxCell>
@@ -391,17 +348,14 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         
-        <!-- Title -->
         <mxCell id="agent-title" value="Multi-Agent System - Interaction Patterns" style="text;strokeColor=none;fillColor=none;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="284" y="20" width="600" height="40" as="geometry" />
         </mxCell>
         
-        <!-- Central Main Agent -->
         <mxCell id="central-agent" value="Vehicle Price Agent&#xa;(Main Orchestrator)&#xa;&#xa;Perceive-Decide-Act Pattern:&#xa;• PERCEIVE: Input validation&#xa;• DECIDE: Agent coordination&#xa;• ACT: Response generation" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="450" y="350" width="200" height="120" as="geometry" />
         </mxCell>
         
-        <!-- Surrounding Specialized Agents -->
         <mxCell id="model-agent-detailed" value="Price Model Agent&#xa;&#xa;Responsibilities:&#xa;• Load ML model (Random Forest)&#xa;• Feature preprocessing &amp; validation&#xa;• Price prediction execution&#xa;• Model performance monitoring&#xa;&#xa;Inputs: Vehicle features&#xa;Outputs: Predicted price + confidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cce5ff;strokeColor=#0066cc;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="150" y="100" width="180" height="120" as="geometry" />
         </mxCell>
@@ -410,23 +364,22 @@
           <mxGeometry x="700" y="100" width="180" height="120" as="geometry" />
         </mxCell>
         
-        <mxCell id="explainer-agent-detailed" value="Explainer Agent&#xa;&#xa;Responsibilities:&#xa;• AI-powered explanations&#xa;• FAISS vector similarity search&#xa;• Feature importance analysis&#xa;• Price justification generation&#xa;&#xa;Inputs: Prediction + context&#xa;Outputs: Human-readable explanation" style="rounded=1;whiteSpace=wrap;html=1;fillColor="#e6ffe6;strokeColor=#00cc44;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="explainer-agent-detailed" value="Explainer Agent&#xa;&#xa;Responsibilities:&#xa;• AI-powered explanations&#xa;• FAISS vector similarity search&#xa;• Feature importance analysis&#xa;• Price justification generation&#xa;&#xa;Inputs: Prediction + context&#xa;Outputs: Human-readable explanation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6ffe6;strokeColor=#00cc44;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="150" y="600" width="180" height="120" as="geometry" />
         </mxCell>
         
-        <mxCell id="insight-agent-detailed" value="Insight Agent&#xa;&#xa;Responsibilities:&#xa;• Market recommendations&#xa;• Price trend analysis&#xa;• Investment advice generation&#xa;• Risk assessment&#xa;&#xa;Inputs: Market data + prediction&#xa;Outputs: Strategic insights" style="rounded=1;whiteSpace=wrap;html=1;fillColor="#ffe6f2;strokeColor=#cc0066;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="insight-agent-detailed" value="Insight Agent&#xa;&#xa;Responsibilities:&#xa;• Market recommendations&#xa;• Price trend analysis&#xa;• Investment advice generation&#xa;• Risk assessment&#xa;&#xa;Inputs: Market data + prediction&#xa;Outputs: Strategic insights" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6f2;strokeColor=#cc0066;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="700" y="600" width="180" height="120" as="geometry" />
         </mxCell>
         
-        <mxCell id="logger-agent-detailed" value="Logger Agent&#xa;&#xa;Responsibilities:&#xa;• Prediction audit logging&#xa;• Performance metrics tracking&#xa;• Error monitoring &amp; reporting&#xa;• Database operations&#xa;&#xa;Inputs: All agent activities&#xa;Outputs: Audit trail + metrics" style="rounded=1;whiteSpace=wrap;html=1;fillColor="#f0f0f0;strokeColor=#666666;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="logger-agent-detailed" value="Logger Agent&#xa;&#xa;Responsibilities:&#xa;• Prediction audit logging&#xa;• Performance metrics tracking&#xa;• Error monitoring &amp; reporting&#xa;• Database operations&#xa;&#xa;Inputs: All agent activities&#xa;Outputs: Audit trail + metrics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="425" y="100" width="180" height="120" as="geometry" />
         </mxCell>
         
-        <mxCell id="data-processor" value="Data Processing Pipeline&#xa;&#xa;Responsibilities:&#xa;• CSV file loading&#xa;• Data validation &amp; cleaning&#xa;• Feature engineering&#xa;• Missing value handling&#xa;&#xa;Inputs: Raw data files&#xa;Outputs: Clean feature vectors" style="rounded=1;whiteSpace=wrap;html=1;fillColor="#ffeecc;strokeColor=#cc8800;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="data-processor" value="Data Processing Pipeline&#xa;&#xa;Responsibilities:&#xa;• CSV file loading&#xa;• Data validation &amp; cleaning&#xa;• Feature engineering&#xa;• Missing value handling&#xa;&#xa;Inputs: Raw data files&#xa;Outputs: Clean feature vectors" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffeecc;strokeColor=#cc8800;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="425" y="600" width="180" height="120" as="geometry" />
         </mxCell>
         
-        <!-- Communication Patterns -->
         <mxCell id="comm1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#28a745;startArrow=classic;startFill=1;" edge="1" parent="1" source="central-agent" target="model-agent-detailed">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -469,7 +422,6 @@
           <mxGeometry x="510" y="500" width="80" height="30" as="geometry" />
         </mxCell>
         
-        <!-- Interaction Sequence -->
         <mxCell id="sequence-title" value="EXECUTION SEQUENCE" style="text;strokeColor=none;fillColor=none;html=1;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="950" y="80" width="200" height="30" as="geometry" />
         </mxCell>
@@ -478,7 +430,6 @@
           <mxGeometry x="950" y="120" width="200" height="160" as="geometry" />
         </mxCell>
         
-        <!-- Design Patterns -->
         <mxCell id="patterns-title" value="DESIGN PATTERNS" style="text;strokeColor=none;fillColor=none;html=1;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="950" y="320" width="200" height="30" as="geometry" />
         </mxCell>
@@ -487,7 +438,6 @@
           <mxGeometry x="950" y="360" width="200" height="140" as="geometry" />
         </mxCell>
         
-        <!-- Error Handling -->
         <mxCell id="error-title" value="ERROR HANDLING" style="text;strokeColor=none;fillColor=none;html=1;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="950" y="540" width="200" height="30" as="geometry" />
         </mxCell>
