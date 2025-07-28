@@ -37,7 +37,12 @@ from src.agents.insight_agent import InsightAgent
 
 app = FastAPI(title="Vehicle Price Prediction API")
 
-DATABASE_URL = "sqlite:///./predictions.db"
+# Configure paths
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+db_path = os.path.join(project_root, "predictions.db")
+
+DATABASE_URL = f"sqlite:///{db_path}"
 
 #for database setup
 database = databases.Database(DATABASE_URL)
@@ -170,12 +175,13 @@ async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 # Serve any static assets (if you add CSS/JS files later)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+static_dir = os.path.join(project_root, "static")
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 @app.get("/logs")
 async def get_logs():
     query = "SELECT * FROM predictions ORDER BY timestamp DESC"
-    conn = sqlite3.connect("predictions.db")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     cursor.execute(query)
     rows = cursor.fetchall()
@@ -194,7 +200,8 @@ async def get_logs():
     ]
     return JSONResponse(content={"logs": logs})
 
-templates = Jinja2Templates(directory="templates")
+templates_dir = os.path.join(project_root, "templates")
+templates = Jinja2Templates(directory=templates_dir)
 
 @app.get("/logs-view", response_class=HTMLResponse)
 async def logs_view(request: Request):

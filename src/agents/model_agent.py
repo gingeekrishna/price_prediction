@@ -42,6 +42,12 @@ class PriceModelAgent:
             FileNotFoundError: If model file doesn't exist
             Exception: If model loading fails
         """
+        # Convert relative path to absolute path
+        if not os.path.isabs(model_path):
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            project_root = os.path.dirname(os.path.dirname(current_dir))
+            model_path = os.path.join(project_root, model_path)
+            
         self.model_path = model_path
         self.model = None
         self.is_loaded = False

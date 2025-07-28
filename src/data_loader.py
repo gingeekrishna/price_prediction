@@ -139,6 +139,16 @@ def merge_data(
     try:
         logger.info("Starting data merge process")
         
+        # Get the project root directory (parent of src directory)
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.dirname(current_dir)
+        
+        # Convert relative paths to absolute paths
+        if not os.path.isabs(hist_path):
+            hist_path = os.path.join(project_root, hist_path)
+        if not os.path.isabs(market_path):
+            market_path = os.path.join(project_root, market_path)
+        
         # Load both datasets
         hist_df = load_historical_data(hist_path)
         market_df = load_market_data(market_path)
