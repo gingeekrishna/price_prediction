@@ -118,6 +118,21 @@ vehicle-price-agent-multi/
 6. **Access the Application**
    - **Web Interface**: http://localhost:8000
    - **API Documentation**: http://localhost:8000/docs
+
+### ✅ Recent Improvements (v2.1)
+
+**Path Resolution Fixes** - All cross-platform compatibility issues have been resolved:
+- ✅ **Fixed Model Loading**: Resolved `STACK_GLOBAL requires str` pickle errors
+- ✅ **Cross-Platform Paths**: Automatic path resolution for Windows, macOS, and Linux
+- ✅ **Database Compatibility**: Fixed SQLite path issues across platforms
+- ✅ **Static Files**: Resolved template and static file serving on all platforms
+- ✅ **Tested Successfully**: Confirmed working on Windows with macOS/Linux compatibility
+
+**Mac/Linux Users**: Use the optimized startup script:
+```bash
+chmod +x start.sh
+./start.sh
+```
    - **Health Check**: http://localhost:8000/health
 
 #### Option 2: Docker Deployment

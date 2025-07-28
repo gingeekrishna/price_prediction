@@ -35,4 +35,7 @@ fi
 
 # Start the application
 echo "🚀 Starting Vehicle Price Prediction API..."
-$PYTHON_CMD run_server.py
+echo "📍 Web Interface: http://localhost:8000"
+echo "📚 API Documentation: http://localhost:8000/docs"
+echo ""
+$PYTHON_CMD run_app.py
