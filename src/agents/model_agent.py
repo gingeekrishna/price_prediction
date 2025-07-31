@@ -70,7 +70,19 @@ class PriceModelAgent:
             logger.info(f"Loading model from: {self.model_path}")
             
             with open(self.model_path, "rb") as f:
-                self.model = pickle.load(f)
+                # Try loading with different approaches for compatibility
+                try:
+                    self.model = pickle.load(f)
+                except Exception as pickle_error:
+                    logger.warning(f"Failed to load with default pickle: {pickle_error}")
+                    # Reset file pointer and try with joblib as fallback
+                    f.seek(0)
+                    try:
+                        import joblib
+                        self.model = joblib.load(f)
+                    except Exception as joblib_error:
+                        logger.error(f"Failed to load with joblib: {joblib_error}")
+                        raise pickle_error  # Re-raise original error
             
             # Validate loaded model
             if not hasattr(self.model, 'predict'):

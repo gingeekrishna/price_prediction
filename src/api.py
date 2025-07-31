@@ -1,5 +1,5 @@
 import sqlite3
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel
 from src.data_loader import merge_data
 from src.model import train_model
@@ -9,7 +9,7 @@ from src.explainer import explain_prediction
 
 # For Html run (for frontend)
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 import os
 
 # For Cors
@@ -133,9 +133,18 @@ def run_agents(vehicle_info: dict):
 #     except Exception as e:
 #         raise HTTPException(status_code=500, detail=str(e))
 @app.post("/predict")
-async def predict(request: Request, payload: dict):
+async def predict(request: Request, payload: dict, response: Response):
+    # Add cache-control headers to prevent caching
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    
     vehicle_age = payload.get("vehicle_age")
     mileage = payload.get("mileage")
+    
+    # Debug logging to see what values we're receiving
+    print(f"DEBUG: Received payload: {payload}")
+    print(f"DEBUG: vehicle_age: {vehicle_age}, mileage: {mileage}")
 
     # Agents
     market_agent = MarketDataAgent()
@@ -153,7 +162,7 @@ async def predict(request: Request, payload: dict):
         "fuel_price": market_data["fuel_price"]
     }
 
-    
+    print(f"DEBUG: full_input sent to model: {full_input}")
 
     predicted_price = model_agent.predict(full_input)
     explanation = explainer_agent.explain(full_input, predicted_price)
@@ -170,13 +179,30 @@ async def predict(request: Request, payload: dict):
 # @app.get("/")
 # async def root():
 #     return FileResponse(os.path.join("static", "index.html"))
-@app.get("/", response_class=HTMLResponse)
-async def index(request: Request):
+
+# Original Jinja2 template route
+@app.get("/old", response_class=HTMLResponse)
+async def old_index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+
+# New Angular-style frontend route
+@app.get("/", response_class=HTMLResponse)
+async def angular_index():
+    frontend_path = os.path.join(project_root, "frontend", "index.html")
+    if os.path.exists(frontend_path):
+        return FileResponse(frontend_path)
+    else:
+        # Fallback to old template if new frontend doesn't exist
+        return FileResponse(os.path.join(project_root, "templates", "index.html"))
 
 # Serve any static assets (if you add CSS/JS files later)
 static_dir = os.path.join(project_root, "static")
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+# Mount the frontend directory to serve static files
+frontend_dir = os.path.join(project_root, "frontend")
+if os.path.exists(frontend_dir):
+    app.mount("/frontend", StaticFiles(directory=frontend_dir), name="frontend")
 
 @app.get("/logs")
 async def get_logs():
