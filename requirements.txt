@@ -69,6 +69,12 @@ uvicorn==0.35.0
 yarl==1.20.1
 zstandard==0.23.0
 
+# MCP (Model Context Protocol) Dependencies
+# Note: Install from source until official PyPI release
+# model-context-protocol==0.1.0
+# mcp-server==0.1.0
+# mcp-client==0.1.0
+
 # Development and Testing Dependencies
 pytest==8.0.0
 pytest-cov==4.0.0

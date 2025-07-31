@@ -3,16 +3,91 @@ Vehicle Price Prediction Agent
 
 This module contains the main agent class for vehicle price prediction.
 The agent follows a perceive-decide-act pattern for price prediction.
+Includes Model Context Protocol (MCP) integration for standardized tool interfaces.
 """
 
 import logging
-from typing import Dict, Any, List, Union
+from typing import Dict, Any, List, Union, Optional
 import pandas as pd
 import numpy as np
+import json
+from datetime import datetime
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+class MCPCapabilities:
+    """
+    Model Context Protocol capabilities for the Vehicle Price Agent.
+    
+    Provides standardized tool interfaces and metadata for MCP integration.
+    """
+    
+    @staticmethod
+    def get_tool_definitions() -> List[Dict[str, Any]]:
+        """Get MCP tool definitions for this agent."""
+        return [
+            {
+                "name": "predict_vehicle_price",
+                "description": "Predict vehicle price using AI model with market data integration",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "vehicle_age": {
+                            "type": "number",
+                            "description": "Age of the vehicle in years",
+                            "minimum": 0,
+                            "maximum": 50
+                        },
+                        "mileage": {
+                            "type": "number",
+                            "description": "Vehicle mileage in kilometers",
+                            "minimum": 0
+                        },
+                        "brand": {
+                            "type": "string",
+                            "description": "Vehicle brand (optional)"
+                        },
+                        "model": {
+                            "type": "string",
+                            "description": "Vehicle model (optional)"
+                        }
+                    },
+                    "required": ["vehicle_age", "mileage"]
+                }
+            },
+            {
+                "name": "explain_prediction",
+                "description": "Get detailed explanation of price prediction factors",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "vehicle_data": {"type": "object"},
+                        "market_data": {"type": "object"},
+                        "predicted_price": {"type": "number"}
+                    },
+                    "required": ["vehicle_data", "market_data", "predicted_price"]
+                }
+            }
+        ]
+    
+    @staticmethod
+    def get_server_info() -> Dict[str, Any]:
+        """Get MCP server information."""
+        return {
+            "name": "vehicle-price-agent",
+            "version": "1.0.0",
+            "description": "AI agent for vehicle price prediction with market analysis",
+            "capabilities": {
+                "tools": True,
+                "textGeneration": False,
+                "multimodal": False
+            },
+            "vendor": "VehiclePricePredictor",
+            "homepage": "https://github.com/gingeekrishna/price_prediction"
+        }
 
 
 class VehiclePriceAgent:
@@ -25,18 +100,22 @@ class VehiclePriceAgent:
     - Decide: Use ML model to make price prediction
     - Act: Format and return the prediction result
     
+    Includes MCP (Model Context Protocol) integration for standardized tool interfaces.
+    
     Attributes:
         model: The trained machine learning model for price prediction
         feature_names: List of feature names expected by the model
+        mcp_enabled: Whether MCP capabilities are enabled
     """
     
-    def __init__(self, model: Any, feature_names: List[str]) -> None:
+    def __init__(self, model: Any, feature_names: List[str], mcp_enabled: bool = True) -> None:
         """
         Initialize the Vehicle Price Agent.
         
         Args:
             model: A trained machine learning model with predict() method
             feature_names: List of feature names that the model expects
+            mcp_enabled: Enable MCP (Model Context Protocol) capabilities
             
         Raises:
             ValueError: If model or feature_names are None/empty
@@ -48,6 +127,12 @@ class VehiclePriceAgent:
             
         self.model = model
         self.feature_names = feature_names
+        self.mcp_enabled = mcp_enabled
+        
+        if mcp_enabled:
+            self.mcp_capabilities = MCPCapabilities()
+            logger.info("MCP capabilities enabled")
+        
         logger.info(f"Agent initialized with {len(feature_names)} features")
 
     def perceive(self, vehicle_data: Dict[str, Any], market_data: Dict[str, Any]) -> pd.DataFrame:
@@ -193,3 +278,184 @@ class VehiclePriceAgent:
         except Exception as e:
             logger.error(f"Error in run method: {str(e)}")
             raise
+
+    # MCP Integration Methods
+    
+    def get_mcp_tools(self) -> List[Dict[str, Any]]:
+        """
+        Get MCP tool definitions for this agent.
+        
+        Returns:
+            List[Dict]: MCP tool definitions
+        """
+        if not self.mcp_enabled:
+            return []
+        
+        return self.mcp_capabilities.get_tool_definitions()
+    
+    def get_mcp_server_info(self) -> Dict[str, Any]:
+        """
+        Get MCP server information.
+        
+        Returns:
+            Dict: MCP server metadata
+        """
+        if not self.mcp_enabled:
+            return {}
+        
+        return self.mcp_capabilities.get_server_info()
+    
+    async def handle_mcp_tool_call(self, tool_name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Handle MCP tool calls for this agent.
+        
+        Args:
+            tool_name: Name of the tool to call
+            arguments: Tool arguments
+            
+        Returns:
+            Dict: Tool execution result
+            
+        Raises:
+            ValueError: If tool is not supported
+        """
+        if not self.mcp_enabled:
+            raise ValueError("MCP capabilities not enabled")
+        
+        if tool_name == "predict_vehicle_price":
+            return await self._mcp_predict_price(arguments)
+        elif tool_name == "explain_prediction":
+            return await self._mcp_explain_prediction(arguments)
+        else:
+            raise ValueError(f"Unsupported MCP tool: {tool_name}")
+    
+    async def _mcp_predict_price(self, args: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        MCP tool implementation for price prediction.
+        
+        Args:
+            args: Tool arguments containing vehicle data
+            
+        Returns:
+            Dict: Prediction result with metadata
+        """
+        try:
+            vehicle_age = args.get("vehicle_age")
+            mileage = args.get("mileage")
+            brand = args.get("brand", "Unknown")
+            model_name = args.get("model", "Unknown")
+            
+            # Create vehicle data dict
+            vehicle_data = {
+                "age": vehicle_age,
+                "mileage": mileage,
+                "brand": brand,
+                "model": model_name
+            }
+            
+            # Mock market data (in real implementation, this would come from market agent)
+            market_data = {
+                "market_index": 1100.0,
+                "fuel_price": 3.75
+            }
+            
+            # Run prediction
+            result = self.run(vehicle_data, market_data)
+            
+            # Extract price from result string
+            price_str = result.replace("Recommended price: $", "").replace(",", "")
+            predicted_price = float(price_str)
+            
+            return {
+                "tool": "predict_vehicle_price",
+                "result": {
+                    "predicted_price": predicted_price,
+                    "currency": "USD",
+                    "vehicle_info": {
+                        "age_years": vehicle_age,
+                        "mileage_km": mileage,
+                        "brand": brand,
+                        "model": model_name
+                    },
+                    "market_conditions": market_data,
+                    "formatted_result": result,
+                    "timestamp": datetime.now().isoformat(),
+                    "confidence": "High" if 10000 <= predicted_price <= 100000 else "Medium"
+                },
+                "success": True
+            }
+            
+        except Exception as e:
+            logger.error(f"MCP predict_price error: {str(e)}")
+            return {
+                "tool": "predict_vehicle_price",
+                "error": str(e),
+                "success": False
+            }
+    
+    async def _mcp_explain_prediction(self, args: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        MCP tool implementation for prediction explanation.
+        
+        Args:
+            args: Tool arguments containing prediction data
+            
+        Returns:
+            Dict: Explanation result
+        """
+        try:
+            vehicle_data = args.get("vehicle_data", {})
+            market_data = args.get("market_data", {})
+            predicted_price = args.get("predicted_price")
+            
+            # Generate explanation (simplified version)
+            explanation = f"""
+            Price Prediction Explanation:
+            
+            Vehicle Factors:
+            - Age: {vehicle_data.get('age', 'N/A')} years (older vehicles typically have lower values)
+            - Mileage: {vehicle_data.get('mileage', 'N/A')} km (higher mileage typically reduces value)
+            - Brand: {vehicle_data.get('brand', 'N/A')} (brand reputation affects resale value)
+            
+            Market Factors:
+            - Market Index: {market_data.get('market_index', 'N/A')} (overall market health)
+            - Fuel Price: ${market_data.get('fuel_price', 'N/A')} (affects vehicle operational costs)
+            
+            Predicted Price: ${predicted_price:,.2f}
+            
+            This prediction is based on machine learning analysis of historical vehicle sales data
+            combined with current market conditions.
+            """
+            
+            return {
+                "tool": "explain_prediction",
+                "result": {
+                    "explanation": explanation.strip(),
+                    "factors": {
+                        "vehicle_age": {
+                            "value": vehicle_data.get('age'),
+                            "impact": "Negative correlation with price"
+                        },
+                        "mileage": {
+                            "value": vehicle_data.get('mileage'),
+                            "impact": "Negative correlation with price"
+                        },
+                        "market_conditions": {
+                            "market_index": market_data.get('market_index'),
+                            "fuel_price": market_data.get('fuel_price'),
+                            "impact": "Varies based on economic conditions"
+                        }
+                    },
+                    "predicted_price": predicted_price,
+                    "timestamp": datetime.now().isoformat()
+                },
+                "success": True
+            }
+            
+        except Exception as e:
+            logger.error(f"MCP explain_prediction error: {str(e)}")
+            return {
+                "tool": "explain_prediction",
+                "error": str(e),
+                "success": False
+            }

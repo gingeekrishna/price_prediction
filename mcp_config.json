@@ -1,0 +1,90 @@
+{
+  "mcpServers": {
+    "vehicle-price-agent": {
+      "command": "python",
+      "args": ["-m", "src.mcp_server"],
+      "env": {
+        "PYTHONPATH": ".",
+        "LOG_LEVEL": "INFO"
+      }
+    }
+  },
+  "server": {
+    "name": "vehicle-price-prediction-mcp",
+    "version": "1.0.0",
+    "description": "Model Context Protocol server for vehicle price prediction using AI agents",
+    "tools": [
+      {
+        "name": "predict_vehicle_price",
+        "description": "Predict vehicle price based on age, mileage, and market conditions",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "vehicle_age": {
+              "type": "number",
+              "description": "Age of the vehicle in years",
+              "minimum": 0,
+              "maximum": 50
+            },
+            "mileage": {
+              "type": "number",
+              "description": "Vehicle mileage in kilometers",
+              "minimum": 0
+            },
+            "brand": {
+              "type": "string",
+              "description": "Vehicle brand (optional)",
+              "enum": ["Toyota", "Honda", "Ford", "BMW", "Mercedes", "Audi", "Other"]
+            },
+            "model": {
+              "type": "string",
+              "description": "Vehicle model (optional)"
+            }
+          },
+          "required": ["vehicle_age", "mileage"]
+        }
+      },
+      {
+        "name": "get_market_data",
+        "description": "Retrieve current market data and trends",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "region": {
+              "type": "string",
+              "description": "Market region",
+              "default": "global"
+            }
+          }
+        }
+      },
+      {
+        "name": "explain_prediction",
+        "description": "Get detailed explanation of price prediction factors",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "vehicle_age": {
+              "type": "number",
+              "description": "Age of the vehicle in years"
+            },
+            "mileage": {
+              "type": "number",
+              "description": "Vehicle mileage in kilometers"
+            },
+            "predicted_price": {
+              "type": "number",
+              "description": "The predicted price to explain"
+            }
+          },
+          "required": ["vehicle_age", "mileage", "predicted_price"]
+        }
+      }
+    ],
+    "capabilities": {
+      "tools": true,
+      "textGeneration": false,
+      "multimodal": false
+    }
+  }
+}
