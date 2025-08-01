@@ -486,9 +486,9 @@ chmod +x start.sh
 ./start.sh
 ```
 
-### 🐳 **Docker Deployment (Alternative Method)**
+### 🐳 **Docker Deployment (Recommended for Production)**
 
-Docker provides a consistent environment across all platforms and is ideal for production deployments.
+Docker provides a consistent environment across all platforms and includes monitoring, caching, and security features.
 
 #### **Step 1: Install Docker**
 
@@ -532,21 +532,111 @@ newgrp docker
 docker --version
 ```
 
-#### **Step 2: Build Docker Image**
+#### **Step 2: Environment Setup**
 
 ```bash
 # Clone repository (if not done already)
 git clone https://github.com/gingeekrishna/price_prediction.git
 cd price_prediction/vehicle-price-agent-multi
 
-# Build Docker image
-docker build -t vehicle-price-predictor .
+# Copy environment template
+cp .env.docker .env
 
-# Verify image was created
-docker images | grep vehicle-price-predictor
+# Edit .env with your API keys
+# Required: ANTHROPIC_API_KEY=your_anthropic_key_here
+# Optional: OLLAMA_BASE_URL=http://host.docker.internal:11434
 ```
 
-#### **Step 3: Run Container**
+#### **Step 3: Production Deployment**
+
+**🚀 Quick Start (All Platforms):**
+```bash
+# Linux/macOS
+chmod +x scripts/docker-start.sh
+./scripts/docker-start.sh
+
+# Windows PowerShell
+.\scripts\docker-start.ps1
+
+# Manual approach
+docker-compose up --build -d
+```
+
+**Production Stack Includes:**
+- ✅ **Vehicle Price API** with multi-LLM support
+- ✅ **Nginx Reverse Proxy** with security headers and rate limiting
+- ✅ **Redis Cache** for performance optimization
+- ✅ **Prometheus Monitoring** for metrics collection
+- ✅ **Grafana Dashboards** for visualization
+
+**Access Points:**
+- 🌐 **Application**: http://localhost
+- 📊 **Grafana**: http://localhost:3000 (admin/admin)
+- 📈 **Prometheus**: http://localhost:9090
+
+#### **Step 4: Development Environment**
+
+For active development with hot reload:
+```bash
+# Linux/macOS
+chmod +x scripts/docker-dev.sh
+./scripts/docker-dev.sh
+
+# Windows PowerShell
+.\scripts\docker-dev.ps1
+
+# Manual approach
+docker-compose -f docker-compose.dev.yml up --build
+```
+
+**Development Features:**
+- 🔄 Hot reload on code changes
+- 🐛 Development debugging enabled
+- 📁 Volume mounts for live editing
+- 🌐 Direct access at http://localhost:8000
+
+#### **Step 5: Docker Management Commands**
+
+```bash
+# View logs
+docker-compose logs -f                    # All services
+docker-compose logs -f app               # Application only
+
+# Check service status
+docker-compose ps
+
+# Stop services
+docker-compose down                      # Stop services
+docker-compose down -v                   # Stop and remove volumes
+
+# Restart specific service
+docker-compose restart app
+
+# Update and rebuild
+docker-compose pull                      # Pull latest images
+docker-compose up --build -d            # Rebuild and restart
+
+# Cleanup
+docker system prune -a                  # Remove unused images
+docker volume prune                     # Remove unused volumes
+```
+
+#### **Step 6: Monitoring and Maintenance**
+
+**Grafana Dashboard Setup:**
+1. Access http://localhost:3000
+2. Login: admin/admin
+3. Import dashboard: Use ID `1860` for Node Exporter
+4. Monitor application metrics and performance
+
+**Health Checks:**
+```bash
+# Check application health
+curl http://localhost/health
+
+# Check individual services
+docker-compose exec app python -c "import requests; print(requests.get('http://localhost:8000/health').json())"
+```
 
 **Basic Container Run:**
 ```bash
