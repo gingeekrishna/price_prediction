@@ -84,100 +84,377 @@ vehicle-price-agent-multi/
 └── README.md                   # This file
 ```
 
-## 🛠️ Installation & Setup
+## 🛠️ Cross-Platform Installation & Setup
 
-### Prerequisites
+### 📋 Prerequisites
 
-- **Python 3.11+** (Required)
-- **pip** (Python package manager)
-- **Git** (Version control)
-- **Docker** (Optional, for containerized deployment)
+| Component | Windows | macOS | Linux |
+|-----------|---------|-------|-------|
+| **Python 3.11+** | [python.org](https://python.org/downloads) | `brew install python@3.11` | `sudo apt install python3.11` |
+| **Git** | [git-scm.com](https://git-scm.com) | `brew install git` | `sudo apt install git` |
+| **pip** | Included with Python | Included with Python | `sudo apt install python3-pip` |
+| **Docker** *(Optional)* | [Docker Desktop](https://docker.com/products/docker-desktop) | [Docker Desktop](https://docker.com/products/docker-desktop) | `sudo apt install docker.io` |
 
-### 🚀 Quick Start
+### 🚀 Complete Setup Guide
 
-#### Option 1: Local Python Installation (Recommended)
+#### **Step 1: System Preparation**
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/gingeekrishna/price_prediction.git
-   cd price_prediction/vehicle-price-agent-multi
-   ```
+**🪟 Windows Setup:**
+```powershell
+# Check Python version
+python --version
 
-2. **Create Virtual Environment**
-   
-   **Windows (PowerShell/CMD):**
-   ```powershell
-   python -m venv venv
-   .\venv\Scripts\activate
-   ```
-   
-   **macOS/Linux (Terminal):**
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
+# If Python not found, install from python.org
+# Ensure "Add Python to PATH" is checked during installation
 
-3. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+# Open PowerShell as Administrator (recommended)
+# Verify pip is available
+pip --version
+```
 
-4. **Environment Configuration**
-   ```bash
-   # Copy sample environment file
-   cp .env.sample .env
-   
-   # Edit .env file with your configuration
-   # Add your OpenAI API key (optional for AI explanations)
-   ```
+**🍎 macOS Setup:**
+```bash
+# Install Homebrew (if not installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-5. **Run the Application**
-   
-   **Method 1: Using the startup script (Cross-platform)**
-   ```bash
-   python run_app.py
-   ```
-   
-   **Method 2: Using the server script**
-   ```bash
-   python run_server.py
-   ```
+# Install Python 3.11+
+brew install python@3.11
 
-6. **Access the Application**
-   - **Web Interface**: http://localhost:8000
-   - **API Documentation**: http://localhost:8000/docs
+# Verify installation
+python3 --version
+pip3 --version
+
+# Create alias (optional)
+echo 'alias python=python3' >> ~/.zshrc
+echo 'alias pip=pip3' >> ~/.zshrc
+source ~/.zshrc
+```
+
+**🐧 Linux (Ubuntu/Debian) Setup:**
+```bash
+# Update system packages
+sudo apt update && sudo apt upgrade -y
+
+# Install Python 3.11 and dependencies
+sudo apt install python3.11 python3.11-venv python3-pip git -y
+
+# Verify installation
+python3.11 --version
+pip3 --version
+
+# Create symlinks (optional)
+sudo ln -sf /usr/bin/python3.11 /usr/bin/python
+sudo ln -sf /usr/bin/pip3 /usr/bin/pip
+```
+
+#### **Step 2: Clone Repository**
+
+**All Platforms:**
+```bash
+# Clone the repository
+git clone https://github.com/gingeekrishna/price_prediction.git
+
+# Navigate to project directory
+cd price_prediction/vehicle-price-agent-multi
+
+# Verify you're in the right directory
+ls -la  # Linux/macOS
+dir     # Windows
+```
+
+#### **Step 3: Virtual Environment Setup**
+
+**🪟 Windows (PowerShell):**
+```powershell
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+.\venv\Scripts\Activate.ps1
+
+# If execution policy error occurs:
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Verify activation (should show (venv) in prompt)
+python --version
+```
+
+**🪟 Windows (Command Prompt):**
+```cmd
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+venv\Scripts\activate.bat
+
+# Verify activation
+python --version
+```
+
+**🍎 macOS:**
+```bash
+# Create virtual environment
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate
+
+# Verify activation (should show (venv) in prompt)
+python --version
+which python  # Should point to venv directory
+```
+
+**🐧 Linux:**
+```bash
+# Install venv if not available
+sudo apt install python3.11-venv -y
+
+# Create virtual environment
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate
+
+# Verify activation
+python --version
+which python  # Should point to venv directory
+```
+
+#### **Step 4: Install Dependencies**
+
+**All Platforms (after venv activation):**
+```bash
+# Upgrade pip to latest version
+python -m pip install --upgrade pip
+
+# Install project dependencies
+pip install -r requirements.txt
+
+# Verify installation
+pip list | grep -E "(fastapi|uvicorn|scikit-learn|anthropic)"
+```
+
+**If Installation Issues Occur:**
+```bash
+# Clear pip cache
+pip cache purge
+
+# Install with no cache
+pip install --no-cache-dir -r requirements.txt
+
+# Force reinstall specific package
+pip install --force-reinstall uvicorn
+```
+
+#### **Step 5: Environment Configuration**
+
+**🪟 Windows:**
+```powershell
+# Copy environment template
+copy .env.sample .env
+
+# Edit environment file
+notepad .env  # or use your preferred editor
+
+# Set environment variables (Optional for Claude AI)
+$env:ANTHROPIC_API_KEY="your-anthropic-key-here"
+$env:OPENAI_API_KEY="your-openai-key-here"
+```
+
+**🍎 macOS / 🐧 Linux:**
+```bash
+# Copy environment template
+cp .env.sample .env
+
+# Edit environment file
+nano .env  # or vim, code, etc.
+
+# Set environment variables (Optional for Claude AI)
+export ANTHROPIC_API_KEY="your-anthropic-key-here"
+export OPENAI_API_KEY="your-openai-key-here"
+
+# Make permanent (add to ~/.bashrc or ~/.zshrc)
+echo 'export ANTHROPIC_API_KEY="your-key"' >> ~/.bashrc
+```
+
+#### **Step 6: Run the Application**
+
+**🚀 Recommended Method (Cross-platform):**
+```bash
+# Start the application
+python run_server.py
+
+# Alternative startup methods:
+python run_app.py        # Basic startup
+python start_server.py   # Legacy method
+```
+
+**🪟 Windows Quick Start:**
+```powershell
+# Using PowerShell script
+.\start.ps1
+
+# Using batch file
+.\start.bat
+```
+
+**🍎 macOS / 🐧 Linux Quick Start:**
+```bash
+# Make script executable
+chmod +x start.sh
+
+# Run startup script
+./start.sh
+```
+
+#### **Step 7: Verify Installation**
+
+**Test Endpoints:**
+```bash
+# Check if server is running (wait 30-60 seconds for startup)
+curl http://localhost:8000/health
+
+# Or open in browser:
+# - Web Interface: http://localhost:8000
+# - API Docs: http://localhost:8000/docs
+# - Health Check: http://localhost:8000/health
+```
+
+### 🧪 **Quick Test Run**
+
+```bash
+# Test basic prediction
+curl -X POST "http://localhost:8000/predict" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "vehicle_age": 5,
+       "mileage": 50000,
+       "make": "Toyota",
+       "model": "Camry",
+       "condition": "good"
+     }'
+
+# Test AI-powered prediction
+curl -X POST "http://localhost:8000/predict_with_ai" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "vehicle_age": 3,
+       "mileage": 30000,
+       "make": "BMW",
+       "model": "3 Series",
+       "condition": "excellent"
+     }'
+```
 
 ### 🧠 **Claude AI Setup (Optional - Premium Features)**
 
 To enable **premium AI-powered explanations** with Claude:
 
-1. **Get Anthropic API Key**
-   - Visit [Anthropic Console](https://console.anthropic.com/)
-   - Create account and generate API key
+#### **Step 1: Get Anthropic API Key**
+1. Visit [Anthropic Console](https://console.anthropic.com/)
+2. Create account and generate API key
+3. Copy your API key (starts with `sk-ant-`)
 
-2. **Configure Environment**
-   
-   **Windows (PowerShell):**
-   ```powershell
-   $env:ANTHROPIC_API_KEY="your-api-key-here"
-   ```
-   
-   **macOS/Linux (Terminal):**
-   ```bash
-   export ANTHROPIC_API_KEY="your-api-key-here"
-   ```
+#### **Step 2: Configure Environment Variables**
 
-3. **Test Claude Integration**
-   ```bash
-   python test_claude.py
-   ```
+**🪟 Windows (PowerShell):**
+```powershell
+# Temporary (current session only)
+$env:ANTHROPIC_API_KEY="sk-ant-your-api-key-here"
 
-4. **Use Premium Endpoints**
-   - `/predict_with_claude` - Premium Claude explanations
-   - `/predict_with_ai` - Smart AI selection (automatically uses Claude when available)
-   - `/claude/status` - Check Claude availability
+# Permanent (add to system environment)
+[Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "sk-ant-your-api-key-here", "User")
 
-**Note**: System works perfectly without Claude using optimized Ollama + standard fallbacks!
+# Verify
+echo $env:ANTHROPIC_API_KEY
+```
+
+**🪟 Windows (Command Prompt):**
+```cmd
+# Temporary (current session only)
+set ANTHROPIC_API_KEY=sk-ant-your-api-key-here
+
+# Permanent (system environment)
+setx ANTHROPIC_API_KEY "sk-ant-your-api-key-here"
+
+# Verify
+echo %ANTHROPIC_API_KEY%
+```
+
+**🍎 macOS:**
+```bash
+# Temporary (current session only)
+export ANTHROPIC_API_KEY="sk-ant-your-api-key-here"
+
+# Permanent (add to shell profile)
+echo 'export ANTHROPIC_API_KEY="sk-ant-your-api-key-here"' >> ~/.zshrc
+source ~/.zshrc
+
+# For bash users
+echo 'export ANTHROPIC_API_KEY="sk-ant-your-api-key-here"' >> ~/.bash_profile
+source ~/.bash_profile
+
+# Verify
+echo $ANTHROPIC_API_KEY
+```
+
+**🐧 Linux:**
+```bash
+# Temporary (current session only)
+export ANTHROPIC_API_KEY="sk-ant-your-api-key-here"
+
+# Permanent (add to bash profile)
+echo 'export ANTHROPIC_API_KEY="sk-ant-your-api-key-here"' >> ~/.bashrc
+source ~/.bashrc
+
+# For zsh users
+echo 'export ANTHROPIC_API_KEY="sk-ant-your-api-key-here"' >> ~/.zshrc
+source ~/.zshrc
+
+# Verify
+echo $ANTHROPIC_API_KEY
+```
+
+#### **Step 3: Test Claude Integration**
+```bash
+# Run Claude integration test
+python test_claude.py
+
+# Expected output:
+# ✅ Claude API key found
+# ✅ Claude agent initialized successfully
+# ✅ Claude integration test passed
+```
+
+#### **Step 4: Use Premium AI Endpoints**
+
+**Available Premium Endpoints:**
+- **`/predict_with_claude`** - Exclusive Claude AI explanations
+- **`/predict_with_ai`** - Smart AI selection (automatically uses Claude when available)
+- **`/claude/status`** - Check Claude availability and API status
+
+**Test Premium Features:**
+```bash
+# Test Claude status
+curl http://localhost:8000/claude/status
+
+# Test Claude-powered prediction
+curl -X POST "http://localhost:8000/predict_with_claude" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "vehicle_age": 4,
+       "mileage": 30000,
+       "make": "Tesla",
+       "model": "Model 3",
+       "condition": "excellent"
+     }'
+```
+
+**💡 Important Notes:**
+- ✅ **System works perfectly without Claude** using optimized Ollama + standard fallbacks
+- 🔄 **Intelligent Fallback**: If Claude is unavailable, system automatically uses Ollama or standard explanations
+- 💰 **Cost**: Claude API charges per usage (~$0.001-0.01 per prediction)
+- 🚀 **Performance**: Claude responses typically 2-5 seconds
 
 ### ✅ **Latest Updates (v3.0 - AI Integration)**
 
@@ -208,39 +485,264 @@ To enable **premium AI-powered explanations** with Claude:
 chmod +x start.sh
 ./start.sh
 ```
-   - **Health Check**: http://localhost:8000/health
 
-#### Option 2: Docker Deployment
+### 🐳 **Docker Deployment (Alternative Method)**
 
-1. **Build Docker Image**
-   ```bash
-   docker build -t vehicle-price-predictor .
-   ```
+Docker provides a consistent environment across all platforms and is ideal for production deployments.
 
-2. **Run Container**
-   ```bash
-   docker run -p 8000:8000 vehicle-price-predictor
-   ```
+#### **Step 1: Install Docker**
 
-3. **Access Application**
-   - Navigate to http://localhost:8000
+**🪟 Windows:**
+```powershell
+# Download and install Docker Desktop from docker.com
+# Enable WSL2 backend for better performance
+# Verify installation
+docker --version
+docker-compose --version
+```
 
-### 🔧 Platform-Specific Notes
+**🍎 macOS:**
+```bash
+# Option 1: Download Docker Desktop from docker.com
+# Option 2: Install via Homebrew
+brew install --cask docker
 
-#### Windows Users
-- Use PowerShell or Command Prompt
-- If you encounter path issues, use forward slashes: `python run_app.py`
-- Ensure Python is added to your PATH during installation
+# Start Docker Desktop and verify
+docker --version
+```
 
-#### macOS Users
-- Use Terminal application
-- Install Python via Homebrew: `brew install python@3.11`
-- Use `python3` command if `python` is not available
+**🐧 Linux:**
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install docker.io docker-compose -y
 
-#### Linux Users
-- Use your distribution's terminal
-- Install Python via package manager: `sudo apt install python3.11` (Ubuntu/Debian)
-- Ensure `python3-venv` is installed: `sudo apt install python3.11-venv`
+# CentOS/RHEL
+sudo yum install docker docker-compose -y
+
+# Start Docker service
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Add user to docker group
+sudo usermod -aG docker $USER
+newgrp docker
+
+# Verify installation
+docker --version
+```
+
+#### **Step 2: Build Docker Image**
+
+```bash
+# Clone repository (if not done already)
+git clone https://github.com/gingeekrishna/price_prediction.git
+cd price_prediction/vehicle-price-agent-multi
+
+# Build Docker image
+docker build -t vehicle-price-predictor .
+
+# Verify image was created
+docker images | grep vehicle-price-predictor
+```
+
+#### **Step 3: Run Container**
+
+**Basic Container Run:**
+```bash
+# Run container with port mapping
+docker run -p 8000:8000 vehicle-price-predictor
+
+# Run in background (detached mode)
+docker run -d -p 8000:8000 --name vehicle-predictor vehicle-price-predictor
+
+# Check container status
+docker ps
+```
+
+**Advanced Container Options:**
+```bash
+# Run with environment variables
+docker run -d -p 8000:8000 \
+  -e ANTHROPIC_API_KEY="your-key-here" \
+  -e OPENAI_API_KEY="your-key-here" \
+  --name vehicle-predictor \
+  vehicle-price-predictor
+
+# Run with volume mounting (for persistent data)
+docker run -d -p 8000:8000 \
+  -v $(pwd)/data:/app/data \
+  -v $(pwd)/logs:/app/logs \
+  --name vehicle-predictor \
+  vehicle-price-predictor
+
+# View container logs
+docker logs vehicle-predictor
+
+# Access container shell
+docker exec -it vehicle-predictor /bin/bash
+```
+
+#### **Step 4: Docker Compose (Recommended for Production)**
+
+Create `docker-compose.yml`:
+```yaml
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./predictions.db:/app/predictions.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+```
+
+**Run with Docker Compose:**
+```bash
+# Start services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+
+# Rebuild and restart
+docker-compose up --build -d
+```
+
+### 🔧 **Platform-Specific Setup Notes**
+
+#### **🪟 Windows Specific Instructions**
+
+**PowerShell Setup:**
+```powershell
+# Enable script execution
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Install Python via Windows Store (recommended)
+# Or download from python.org (ensure "Add to PATH" is checked)
+
+# Use Windows Terminal for better experience
+# Available from Microsoft Store
+
+# Common Windows paths
+$env:PATH += ";C:\Users\$env:USERNAME\AppData\Local\Programs\Python\Python311"
+```
+
+**WSL2 Integration (Recommended):**
+```bash
+# Install WSL2 for Linux-like experience
+wsl --install
+
+# Use Ubuntu or preferred distribution
+# Run the project in WSL2 for better compatibility
+```
+
+#### **🍎 macOS Specific Instructions**
+
+**Homebrew Setup:**
+```bash
+# Install Homebrew (package manager)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install Python via Homebrew (recommended)
+brew install python@3.11
+
+# Install additional tools
+brew install git curl wget
+
+# Add to PATH (add to ~/.zshrc)
+echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+**Apple Silicon (M1/M2) Notes:**
+```bash
+# Some packages may need native ARM builds
+pip install --upgrade pip
+pip install --no-binary :all: scikit-learn  # If needed
+
+# For Docker on Apple Silicon
+# Use --platform linux/amd64 if needed
+docker build --platform linux/amd64 -t vehicle-price-predictor .
+```
+
+#### **🐧 Linux Distribution Specific**
+
+**Ubuntu/Debian:**
+```bash
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install dependencies
+sudo apt install python3.11 python3.11-venv python3-pip git curl build-essential -y
+
+# For older Ubuntu versions, add deadsnakes PPA
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+```
+
+**CentOS/RHEL/Fedora:**
+```bash
+# Install EPEL repository (CentOS/RHEL)
+sudo yum install epel-release -y
+
+# Install dependencies
+sudo yum install python3 python3-pip git curl gcc gcc-c++ make -y
+
+# Or for Fedora
+sudo dnf install python3 python3-pip git curl gcc gcc-c++ make -y
+```
+
+**Arch Linux:**
+```bash
+# Install dependencies
+sudo pacman -S python python-pip git curl base-devel -Sy
+
+# Install from AUR if needed
+yay -S python311  # If available
+```
+
+### ✅ **Verification Checklist**
+
+After setup on any platform, verify your installation:
+
+```bash
+# 1. Check Python version
+python --version  # Should be 3.11+
+
+# 2. Check virtual environment
+which python  # Should point to venv directory
+
+# 3. Check installed packages
+pip list | grep -E "(fastapi|uvicorn|scikit-learn)"
+
+# 4. Test server startup
+python run_server.py  # Should start without errors
+
+# 5. Test API endpoints
+curl http://localhost:8000/health  # Should return {"status": "healthy"}
+
+# 6. Test web interface
+# Open http://localhost:8000 in browser
+
+# 7. Test AI capabilities (if configured)
+curl http://localhost:8000/claude/status  # Check Claude status
+python test_claude.py  # Run Claude integration test
+```
 
 ## 📖 **AI-Powered API Usage**
 
@@ -384,46 +886,325 @@ python -m pytest tests/test_agent.py -v
    docker-compose up --build
    ```
 
-## 🔍 Troubleshooting
+## 🔍 Comprehensive Troubleshooting Guide
 
-### Common Issues and Solutions
+### 🚨 **Common Installation Issues**
 
-#### Import Errors
-```bash
-# Issue: ModuleNotFoundError: No module named 'src'
-# Solution: Run from project root directory
-cd vehicle-price-agent-multi
-python run_app.py
+#### **Python Version Issues**
+
+**🪟 Windows:**
+```powershell
+# Problem: Python not found or wrong version
+# Solution 1: Check Python installation
+python --version
+Get-Command python
+
+# Solution 2: Install/Update Python
+# Download from python.org and ensure "Add to PATH" is checked
+# Or use Windows Store version
+
+# Solution 3: Multiple Python versions conflict
+py -3.11 --version  # Use specific version
 ```
 
-#### Port Already in Use
+**🍎 macOS:**
 ```bash
-# Issue: Port 8000 already in use
-# Solution: Kill existing process or use different port
-# Windows:
+# Problem: python3 command not found
+# Solution 1: Install via Homebrew
+brew install python@3.11
+
+# Solution 2: Fix PATH issues
+echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+
+# Solution 3: Multiple Python versions
+which python3  # Check current Python path
+/usr/bin/python3 --version  # System Python
+/opt/homebrew/bin/python3 --version  # Homebrew Python
+```
+
+**🐧 Linux:**
+```bash
+# Problem: Python 3.11 not available
+# Solution 1: Add deadsnakes PPA (Ubuntu)
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install python3.11 python3.11-venv python3.11-pip
+
+# Solution 2: Build from source (other distros)
+wget https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz
+tar xzf Python-3.11.9.tgz
+cd Python-3.11.9
+./configure --enable-optimizations
+make -j 8
+sudo make altinstall
+```
+
+#### **Virtual Environment Issues**
+
+**🪟 Windows PowerShell Execution Policy:**
+```powershell
+# Problem: cannot be loaded because running scripts is disabled
+# Solution: Enable script execution
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Verify
+Get-ExecutionPolicy -List
+
+# Alternative: Use Command Prompt instead
+cmd
+venv\Scripts\activate.bat
+```
+
+**🍎 macOS Permission Issues:**
+```bash
+# Problem: Permission denied creating venv
+# Solution 1: Check directory permissions
+ls -la
+chmod 755 .
+
+# Solution 2: Use user Python installation
+python3 -m pip install --user virtualenv
+python3 -m virtualenv venv
+```
+
+**🐧 Linux venv Package Missing:**
+```bash
+# Problem: No module named 'venv'
+# Solution: Install venv package
+sudo apt install python3.11-venv  # Ubuntu/Debian
+sudo yum install python3-venv      # CentOS/RHEL
+sudo pacman -S python-virtualenv   # Arch Linux
+```
+
+#### **Dependency Installation Issues**
+
+**All Platforms - pip Issues:**
+```bash
+# Problem: pip install fails with various errors
+# Solution 1: Upgrade pip
+python -m pip install --upgrade pip
+
+# Solution 2: Clear cache
+pip cache purge
+
+# Solution 3: Install with no cache
+pip install --no-cache-dir -r requirements.txt
+
+# Solution 4: Install individually
+pip install fastapi uvicorn scikit-learn pandas numpy
+
+# Solution 5: Use pre-compiled wheels only
+pip install --only-binary=all -r requirements.txt
+```
+
+**Specific Package Issues:**
+```bash
+# Problem: Failed building wheel for [package]
+# Solution: Install build tools
+
+# Windows: Install Visual Studio Build Tools
+# macOS: 
+xcode-select --install
+
+# Linux:
+sudo apt install build-essential python3-dev  # Ubuntu
+sudo yum groupinstall "Development Tools"     # CentOS
+```
+
+#### **Port and Network Issues**
+
+**🪟 Windows Port Conflicts:**
+```powershell
+# Problem: Port 8000 already in use
+# Solution 1: Find process using port
 netstat -ano | findstr :8000
+Get-Process -Id <PID>
+
+# Solution 2: Kill process
 taskkill /PID <process_id> /F
 
+# Solution 3: Use different port
+# Edit run_server.py to change port number
+```
+
+**🍎 macOS / 🐧 Linux Port Conflicts:**
+```bash
+# Problem: Address already in use
+# Solution 1: Find and kill process
+lsof -ti:8000
+kill -9 $(lsof -ti:8000)
+
+# Solution 2: Use netstat
+netstat -tulpn | grep :8000
+sudo kill -9 <PID>
+
+# Solution 3: Check for system services
+sudo systemctl status  # Linux
+brew services list      # macOS
+```
+
+#### **File Permission Issues**
+
+**🍎 macOS / 🐧 Linux:**
+```bash
+# Problem: Permission denied errors
+# Solution 1: Fix directory permissions
+chmod -R 755 .
+chown -R $USER:$USER .
+
+# Solution 2: For log files
+mkdir -p logs
+chmod 755 logs
+
+# Solution 3: For database files
+chmod 644 *.db
+```
+
+**🪟 Windows:**
+```powershell
+# Problem: Access denied errors
+# Solution: Run as Administrator or check folder permissions
+# Right-click folder → Properties → Security → Edit
+```
+
+### 🔧 **Runtime Issues**
+
+#### **Model Loading Errors**
+
+```bash
+# Problem: Model file not found or corrupted
+# Solution 1: Retrain model
+python scripts/train_model.py
+
+# Solution 2: Check model file
+ls -la src/model.pkl
+file src/model.pkl  # Linux/macOS
+
+# Solution 3: Reset model cache
+rm src/model.pkl
+python run_server.py  # Will retrain automatically
+```
+
+#### **Database Issues**
+
+```bash
+# Problem: Database locked or corrupted
+# Solution 1: Remove database file
+rm predictions.db
+
+# Solution 2: Check database permissions
+chmod 644 predictions.db
+
+# Solution 3: Use database browser (if needed)
+sqlite3 predictions.db ".schema"
+```
+
+#### **AI Agent Issues**
+
+```bash
+# Problem: Ollama not responding
+# Solution 1: Check Ollama status
+curl http://localhost:11434/api/version
+
+# Solution 2: Restart Ollama
+# Windows: Check Task Manager and restart
 # macOS/Linux:
-lsof -ti:8000 | xargs kill -9
+brew services restart ollama  # macOS
+sudo systemctl restart ollama # Linux
+
+# Problem: Claude API key issues
+# Solution: Verify API key
+echo $ANTHROPIC_API_KEY
+curl -H "x-api-key: $ANTHROPIC_API_KEY" https://api.anthropic.com/v1/messages
 ```
 
-#### Virtual Environment Issues
+### 📊 **Performance Issues**
+
+#### **Slow Startup**
+
 ```bash
-# Issue: Virtual environment not activating
-# Solution: Recreate virtual environment
-rm -rf venv  # or rmdir /s venv on Windows
-python -m venv venv
-# Then activate and reinstall dependencies
+# Problem: Application takes too long to start
+# Cause: Model training, data loading, AI initialization
+
+# Solution 1: Monitor startup process
+python run_server.py --log-level debug
+
+# Solution 2: Skip AI components temporarily
+# Comment out AI imports in src/api.py for testing
+
+# Solution 3: Use smaller dataset for testing
+# Replace data files with smaller versions
 ```
 
-#### Docker Issues
+#### **High Memory Usage**
+
 ```bash
-# Issue: Docker build fails
-# Solution: Ensure Docker is running and try:
-docker system prune -f
-docker build --no-cache -t vehicle-price-predictor .
+# Problem: Application uses too much RAM
+# Solution 1: Monitor memory usage
+# Windows: Task Manager → Performance → Memory
+# macOS: Activity Monitor
+# Linux: htop or top
+
+# Solution 2: Optimize model settings
+# Edit src/model.py and reduce n_estimators
+
+# Solution 3: Increase system memory or use swap
 ```
+
+### 🌐 **Web Interface Issues**
+
+#### **Browser Access Problems**
+
+```bash
+# Problem: Cannot access web interface
+# Solution 1: Check server is running
+curl http://localhost:8000/health
+
+# Solution 2: Try different browsers
+# Chrome, Firefox, Safari, Edge
+
+# Solution 3: Clear browser cache
+# Ctrl+Shift+Delete (Windows/Linux)
+# Cmd+Shift+Delete (macOS)
+
+# Solution 4: Check firewall
+# Windows: Windows Defender Firewall
+# macOS: System Preferences → Security & Privacy → Firewall
+# Linux: sudo ufw status
+```
+
+### 🆘 **Getting Additional Help**
+
+**📋 Collect System Information:**
+```bash
+# System info script
+python -c "
+import sys, platform, os
+print(f'OS: {platform.system()} {platform.release()}')
+print(f'Python: {sys.version}')
+print(f'Current Directory: {os.getcwd()}')
+print(f'Python Path: {sys.executable}')
+"
+
+# Check installed packages
+pip list > installed_packages.txt
+```
+
+**🔍 Debug Mode:**
+```bash
+# Run with debug logging
+python run_server.py --log-level debug > debug.log 2>&1
+
+# Check logs
+tail -f debug.log  # Linux/macOS
+Get-Content debug.log -Wait  # Windows PowerShell
+```
+
+**📞 Support Channels:**
+- **GitHub Issues**: [Report bugs](https://github.com/gingeekrishna/price_prediction/issues)
+- **Documentation**: Check `DEVELOPMENT.md` for detailed setup
+- **Community**: GitHub Discussions for questions
 
 ### ⚡ **Performance Optimization**
 
