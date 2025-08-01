@@ -1,4 +1,4 @@
-# Vehicle Pri- **🧠- **🤖 Advan- **📈 Performance Monitoring**: Real-time bottleneck analysis and optimizationed ML Pipeline**: Random Forest-based price prediction with comprehensive model evaluationClaude AI Integration**: Premium explanations using Anthropic's Claude-3-Opus modele Prediction System 🚗💰
+# Vehicle Price Prediction System 🚗💰
 
 [![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
@@ -6,7 +6,7 @@
 [![Cross Platform](https://img.shields.io/badge/platform-windows%20%7C%20macOS%20%7C%20linux-lightgrey.svg)](https://github.com/gingeekrishna/price_prediction)
 [![AI Powered](https://img.shields.io/badge/AI-Claude%20%2B%20Ollama-purple.svg)](https://anthropic.com/)
 
-A comprehensive **AI-powered** machine learning system for predicting vehicle prices using historical vehicle data, real-time market trends, and advanced **multi-LLM architecture**. This project implements an intelligent agent-based architecture with RESTful API endpoints for seamless integration across Windows, macOS, and Linux platforms.
+A comprehensive **AI-powered** machine learning system for predicting vehicle prices using historical vehicle data, real-time market trends, and advanced **multi-LLM architecture**. This project implements an intelligent agent-based prices using historical vehicle data, real-time market trends, and advanced **multi-LLM architecture**. This project implements an intelligent agent-based architecture with RESTful API endpoints for seamless integration across Windows, macOS, and Linux platforms.
 
 ## 🚀 Features
 
