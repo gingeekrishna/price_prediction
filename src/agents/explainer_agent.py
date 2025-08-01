@@ -29,7 +29,16 @@ import logging
 logger = logging.getLogger(__name__)
 
 class ExplainerAgentRAG:
-    def __init__(self, use_mock=True, use_ollama=True):
+    def __init__(self, use_mock=True, use_ollama=True, use_claude=False, llm_provider="ollama"):
+        """
+        Initialize ExplainerAgentRAG with multiple LLM options.
+        
+        Args:
+            use_mock: Use mock embeddings and chat completion
+            use_ollama: Enable Ollama LLM support
+            use_claude: Enable Claude LLM support  
+            llm_provider: Primary LLM provider ("ollama", "claude", or "auto")
+        """
         if use_mock:
             self.embeddings = DummyEmbeddings()
             self.chat_completion = DummyChatCompletion()
@@ -46,50 +55,112 @@ class ExplainerAgentRAG:
                 logger.warning(f"Failed to load FAISS index: {e}")
                 self.vectorstore = None
         
-        # Initialize Ollama agent if requested
+        # Initialize LLM providers
+        self.llm_provider = llm_provider
         self.use_ollama = use_ollama
+        self.use_claude = use_claude
         self.ollama_agent = None
+        self.claude_agent = None
+        
+        # Initialize Ollama agent if requested
         if use_ollama:
             try:
                 from .ollama_agent import OllamaAgent
                 self.ollama_agent = OllamaAgent()
-                if self.ollama_agent.is_available():
+                if self.ollama_agent.available:
                     logger.info("Ollama agent initialized for enhanced explanations")
                 else:
                     self.use_ollama = False
-                    logger.info("Ollama not available, using standard explanations")
+                    logger.info("Ollama not available")
             except Exception as e:
                 logger.warning(f"Ollama initialization failed: {e}")
                 self.use_ollama = False
+        
+        # Initialize Claude agent if requested
+        if use_claude:
+            try:
+                from .claude_agent import ClaudeAgent
+                self.claude_agent = ClaudeAgent()
+                if self.claude_agent.available:
+                    logger.info("Claude agent initialized for enhanced explanations")
+                else:
+                    self.use_claude = False
+                    logger.info("Claude not available - check ANTHROPIC_API_KEY")
+            except Exception as e:
+                logger.warning(f"Claude initialization failed: {e}")
+                self.use_claude = False
 
     def explain(self, input_data, predicted_price):
-        # Try Ollama first for enhanced explanations
-        if self.use_ollama and self.ollama_agent and self.ollama_agent.is_available():
-            try:
-                vehicle_data = {
-                    'vehicle_age': input_data.get('vehicle_age'),
-                    'mileage': input_data.get('mileage'),
-                    'brand': input_data.get('brand', 'Unknown'),
-                    'model': input_data.get('model', 'Unknown')
-                }
-                market_data = {
-                    'market_index': input_data.get('market_index'),
-                    'fuel_price': input_data.get('fuel_price')
-                }
+        """Generate explanation using the best available LLM provider."""
+        
+        # Prepare standardized vehicle and market data
+        vehicle_data = {
+            'vehicle_age': input_data.get('vehicle_age'),
+            'mileage': input_data.get('mileage'),
+            'make': input_data.get('make', input_data.get('brand', 'Unknown')),
+            'model': input_data.get('model', 'Unknown'),
+            'year': input_data.get('year')
+        }
+        market_data = {
+            'market_index': input_data.get('market_index'),
+            'fuel_price': input_data.get('fuel_price'),
+            'avg_price': predicted_price,
+            'trend': 'stable'
+        }
+        
+        # Try providers based on preference and availability
+        if self.llm_provider == "claude" and self.use_claude and self.claude_agent:
+            explanation = self._try_claude_explanation(vehicle_data, market_data, predicted_price)
+            if explanation:
+                return f"🧠 Claude AI Analysis:\n\n{explanation}"
                 
-                ollama_explanation = self.ollama_agent.generate_explanation(
-                    vehicle_data, market_data, predicted_price
-                )
+        elif self.llm_provider == "ollama" and self.use_ollama and self.ollama_agent:
+            explanation = self._try_ollama_explanation(vehicle_data, market_data, predicted_price)
+            if explanation:
+                return f"🤖 Ollama AI Analysis:\n\n{explanation}"
                 
-                if ollama_explanation and ollama_explanation.strip():
-                    logger.info("Generated explanation using Ollama")
-                    return f"🤖 AI-Enhanced Analysis:\n\n{ollama_explanation}"
-                
-            except Exception as e:
-                logger.warning(f"Ollama explanation failed, falling back to standard: {e}")
+        elif self.llm_provider == "auto":
+            # Try Claude first (faster), then Ollama, then fallback
+            if self.use_claude and self.claude_agent:
+                explanation = self._try_claude_explanation(vehicle_data, market_data, predicted_price)
+                if explanation:
+                    return f"🧠 Claude AI Analysis:\n\n{explanation}"
+                    
+            if self.use_ollama and self.ollama_agent:
+                explanation = self._try_ollama_explanation(vehicle_data, market_data, predicted_price)
+                if explanation:
+                    return f"🤖 Ollama AI Analysis:\n\n{explanation}"
         
         # Fallback to standard RAG-based explanation
         return self._standard_explanation(input_data, predicted_price)
+    
+    def _try_claude_explanation(self, vehicle_data, market_data, predicted_price):
+        """Try to generate explanation using Claude."""
+        try:
+            if self.claude_agent and self.claude_agent.available:
+                explanation = self.claude_agent.generate_explanation(
+                    vehicle_data, market_data, predicted_price
+                )
+                if explanation and explanation.strip() and "error" not in explanation.lower():
+                    logger.info("Generated explanation using Claude")
+                    return explanation
+        except Exception as e:
+            logger.warning(f"Claude explanation failed: {e}")
+        return None
+    
+    def _try_ollama_explanation(self, vehicle_data, market_data, predicted_price):
+        """Try to generate explanation using Ollama."""
+        try:
+            if self.ollama_agent and self.ollama_agent.available:
+                explanation = self.ollama_agent.generate_explanation(
+                    vehicle_data, market_data, predicted_price
+                )
+                if explanation and explanation.strip():
+                    logger.info("Generated explanation using Ollama")
+                    return explanation
+        except Exception as e:
+            logger.warning(f"Ollama explanation failed: {e}")
+        return None
     
     def _standard_explanation(self, input_data, predicted_price):
         """Standard explanation using RAG or fallback methods."""

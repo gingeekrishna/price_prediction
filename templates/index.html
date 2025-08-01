@@ -1,62 +1,213 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Vehicle Price Predictor</title>
+    <title>🚗 AI-Powered Vehicle Price Predictor</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        label { display: block; margin: 10px 0 5px; }
-        input[type="number"] { padding: 8px; width: 200px; }
-        button { padding: 10px 20px; margin-top: 10px; }
-        .result { margin-top: 20px; font-weight: bold; }
-        .error { color: red; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 40px; 
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        label { 
+            display: block; 
+            margin: 15px 0 5px; 
+            font-weight: 600;
+            color: #555;
+        }
+        input, select { 
+            padding: 12px; 
+            width: 100%; 
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        button { 
+            padding: 15px 30px; 
+            margin-top: 20px; 
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result { 
+            margin-top: 30px; 
+            padding: 20px;
+            background-color: #e8f5e8;
+            border-left: 5px solid #4CAF50;
+            border-radius: 5px;
+        }
+        .error { 
+            color: #d32f2f; 
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #ffebee;
+            border-left: 5px solid #d32f2f;
+            border-radius: 5px;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
-    <h2>Vehicle Price Predictor</h2>
-    <form id="predictForm">
-        <label for="age">Vehicle Age (in years):</label>
-        <input type="number" id="age" name="age" min="0" required>
+    <div class="container">
+        <h2>🚗 AI-Powered Vehicle Price Predictor</h2>
+        <form id="predictForm">
+            <label for="make">Vehicle Make:</label>
+            <select id="make" name="make" required>
+                <option value="">Select Make</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Honda">Honda</option>
+                <option value="Ford">Ford</option>
+                <option value="Chevrolet">Chevrolet</option>
+                <option value="BMW">BMW</option>
+                <option value="Mercedes-Benz">Mercedes-Benz</option>
+                <option value="Audi">Audi</option>
+                <option value="Volkswagen">Volkswagen</option>
+                <option value="Nissan">Nissan</option>
+                <option value="Hyundai">Hyundai</option>
+            </select>
 
-        <label for="mileage">Mileage (in km):</label>
-        <input type="number" id="mileage" name="mileage" min="0" required>
+            <label for="model">Vehicle Model:</label>
+            <input type="text" id="model" name="model" placeholder="e.g., Camry, Civic, F-150" required>
 
-        <button type="submit">Predict</button>
-    </form>
+            <label for="year">Year:</label>
+            <input type="number" id="year" name="year" min="1990" max="2025" placeholder="e.g., 2020" required>
 
-    <div class="result" id="predictionResult"></div>
-    <div class="error" id="errorMessage"></div>
+            <label for="mileage">Mileage (km):</label>
+            <input type="number" id="mileage" name="mileage" min="0" placeholder="e.g., 50000" required>
+
+            <label for="condition">Condition:</label>
+            <select id="condition" name="condition" required>
+                <option value="">Select Condition</option>
+                <option value="excellent">Excellent</option>
+                <option value="good">Good</option>
+                <option value="fair">Fair</option>
+                <option value="poor">Poor</option>
+            </select>
+
+            <button type="submit">🤖 Get AI Price Prediction</button>
+        </form>
+
+        <div class="result" id="predictionResult"></div>
+        <div class="error" id="errorMessage"></div>
+    </div>
 
     <script>
         document.getElementById("predictForm").addEventListener("submit", function (e) {
             e.preventDefault();
 
-            const age = document.getElementById("age").value;
+            const make = document.getElementById("make").value;
+            const model = document.getElementById("model").value;
+            const year = document.getElementById("year").value;
             const mileage = document.getElementById("mileage").value;
+            const condition = document.getElementById("condition").value;
+            
             const resultDiv = document.getElementById("predictionResult");
             const errorDiv = document.getElementById("errorMessage");
 
-            resultDiv.textContent = "";
-            errorDiv.textContent = "";
+            resultDiv.innerHTML = "";
+            errorDiv.innerHTML = "";
 
-            if (!age || !mileage || age < 0 || mileage < 0) {
-                errorDiv.textContent = "Please enter valid values for both fields.";
+            // Validation
+            if (!make || !model || !year || !mileage || !condition) {
+                errorDiv.innerHTML = "❌ Please fill in all fields.";
                 return;
             }
 
+            if (year < 1990 || year > 2025) {
+                errorDiv.innerHTML = "❌ Please enter a valid year between 1990 and 2025.";
+                return;
+            }
+
+            if (mileage < 0) {
+                errorDiv.innerHTML = "❌ Please enter a valid mileage.";
+                return;
+            }
+
+            // Show loading
+            resultDiv.innerHTML = '<div class="loading">🤖 AI is analyzing your vehicle... This may take 10-15 seconds.</div>';
+
+            // Send request to enhanced API
             fetch("/predict", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ vehicle_age: Number(age), mileage: Number(mileage) })
+                body: JSON.stringify({ 
+                    make: make,
+                    model: model,
+                    year: parseInt(year),
+                    mileage: parseInt(mileage),
+                    condition: condition
+                })
             })
             .then(res => {
-                if (!res.ok) throw new Error("Prediction failed.");
+                if (!res.ok) {
+                    throw new Error(`Server error: ${res.status}`);
+                }
                 return res.json();
             })
             .then(data => {
-                resultDiv.textContent = `💰 Estimated Price: $${data.predicted_price.toFixed(2)}`;
+                let resultHTML = `
+                    <h3>💰 Predicted Price: $${data.predicted_price.toLocaleString()}</h3>
+                `;
+                
+                if (data.explanation) {
+                    resultHTML += `
+                        <div style="margin-top: 15px;">
+                            <h4>🤖 AI Analysis:</h4>
+                            <p style="white-space: pre-line; line-height: 1.6;">${data.explanation}</p>
+                        </div>
+                    `;
+                }
+                
+                if (data.recommendation) {
+                    resultHTML += `
+                        <div style="margin-top: 15px;">
+                            <h4>� AI Recommendations:</h4>
+                            <p style="white-space: pre-line; line-height: 1.6;">${data.recommendation}</p>
+                        </div>
+                    `;
+                }
+
+                if (data.market_data) {
+                    resultHTML += `
+                        <div style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                            <strong>📊 Market Data:</strong> Index: ${data.market_data.market_index}, Fuel Price: $${data.market_data.fuel_price}
+                        </div>
+                    `;
+                }
+                
+                resultDiv.innerHTML = resultHTML;
             })
             .catch(err => {
-                errorDiv.textContent = err.message;
+                console.error('Prediction error:', err);
+                errorDiv.innerHTML = `❌ Failed to get prediction: ${err.message}. Please check if the server is running and try again.`;
             });
         });
     </script>

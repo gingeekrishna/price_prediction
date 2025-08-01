@@ -58,6 +58,20 @@ except ImportError as e:
     OLLAMA_AVAILABLE = False
     logging.warning(f"Ollama not available: {e}")
 
+# Initialize Claude agent (optional)
+try:
+    from src.agents.claude_agent import ClaudeAgent
+    CLAUDE_AVAILABLE = True
+    claude_agent = ClaudeAgent()
+    if claude_agent and claude_agent.available:
+        logging.info("Claude agent initialized successfully")
+    else:
+        CLAUDE_AVAILABLE = False
+        logging.info("Claude agent not available - check ANTHROPIC_API_KEY")
+except ImportError as e:
+    CLAUDE_AVAILABLE = False
+    logging.warning(f"Claude not available: {e}")
+
 app = FastAPI(title="Vehicle Price Prediction API")
 
 # Configure paths
@@ -385,6 +399,169 @@ async def ollama_natural_language_query(request: Request, payload: dict):
         return {
             "error": f"Query failed: {str(e)}",
             "query": query
+        }
+
+# Claude Integration Endpoints
+
+@app.post("/predict_with_claude")
+async def predict_with_claude(request: Request, payload: dict, response: Response):
+    """Enhanced prediction with Claude-powered explanations and insights."""
+    # Add cache-control headers to prevent caching
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    
+    vehicle_age = payload.get("vehicle_age")
+    mileage = payload.get("mileage")
+    make = payload.get("make", "Unknown")
+    model = payload.get("model", "Unknown")
+    year = payload.get("year")
+    
+    # Debug logging
+    print(f"DEBUG: Claude prediction - vehicle_age: {vehicle_age}, mileage: {mileage}")
+
+    try:
+        # Initialize agents
+        market_agent = MarketDataAgent()
+        model_agent = PriceModelAgent()
+        
+        # Use Claude-enabled explainer
+        explainer_agent = ExplainerAgentRAG(use_claude=True, llm_provider="claude")
+        
+        # Collect market data
+        market_data = market_agent.collect_market_data()
+        print(f"DEBUG: Market data: {market_data}")
+        
+        # Make prediction
+        input_data = {
+            "vehicle_age": vehicle_age,
+            "mileage": mileage,
+            "market_index": market_data.get("market_index", 1000),
+            "fuel_price": market_data.get("fuel_price", 3.5),
+            "make": make,
+            "model": model,
+            "year": year
+        }
+        
+        predicted_price = model_agent.predict_price(input_data)
+        print(f"DEBUG: Predicted price: {predicted_price}")
+        
+        # Generate enhanced explanation using Claude
+        explanation = explainer_agent.explain(input_data, predicted_price)
+        
+        # Generate recommendation
+        recommendation = "💎 Premium AI analysis complete. Claude provides sophisticated market insights."
+        
+        # Log prediction to database
+        log_data = {
+            "vehicle_age": vehicle_age,
+            "mileage": mileage,
+            "predicted_price": predicted_price,
+            "explanation": explanation,
+            "llm_provider": "claude"
+        }
+        
+        await database.execute(
+            "INSERT INTO predictions (vehicle_age, mileage, predicted_price, explanation, timestamp) VALUES (:vehicle_age, :mileage, :predicted_price, :explanation, :timestamp)",
+            {**log_data, "timestamp": datetime.now().isoformat()}
+        )
+        
+        return {
+            "predicted_price": predicted_price,
+            "explanation": explanation,
+            "recommendation": recommendation,
+            "market_data": market_data,
+            "llm_provider": "claude",
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        print(f"Error in Claude prediction: {str(e)}")
+        return {
+            "error": f"Prediction failed: {str(e)}",
+            "llm_provider": "claude",
+            "timestamp": datetime.now().isoformat()
+        }
+
+@app.get("/claude/status")
+async def claude_status():
+    """Check Claude availability."""
+    if CLAUDE_AVAILABLE and claude_agent:
+        return {
+            "available": True,
+            "model": claude_agent.model_name,
+            "status": "connected",
+            "provider": "Anthropic Claude"
+        }
+    else:
+        return {
+            "available": False,
+            "status": "not_connected",
+            "message": "Claude not available. Set ANTHROPIC_API_KEY environment variable to enable Claude AI features."
+        }
+
+@app.post("/predict_with_ai")
+async def predict_with_ai(request: Request, payload: dict, response: Response):
+    """Smart prediction that auto-selects the best available AI (Claude > Ollama > Standard)."""
+    # Add cache-control headers
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    
+    vehicle_age = payload.get("vehicle_age")
+    mileage = payload.get("mileage")
+    make = payload.get("make", "Unknown")
+    model = payload.get("model", "Unknown")
+    year = payload.get("year")
+    
+    try:
+        # Initialize agents
+        market_agent = MarketDataAgent()
+        model_agent = PriceModelAgent()
+        
+        # Use smart explainer with auto LLM selection
+        explainer_agent = ExplainerAgentRAG(
+            use_claude=CLAUDE_AVAILABLE, 
+            use_ollama=OLLAMA_AVAILABLE, 
+            llm_provider="auto"
+        )
+        
+        # Collect market data
+        market_data = market_agent.collect_market_data()
+        
+        # Make prediction
+        input_data = {
+            "vehicle_age": vehicle_age,
+            "mileage": mileage,
+            "market_index": market_data.get("market_index", 1000),
+            "fuel_price": market_data.get("fuel_price", 3.5),
+            "make": make,
+            "model": model,
+            "year": year
+        }
+        
+        predicted_price = model_agent.predict_price(input_data)
+        
+        # Generate smart explanation (tries Claude first, then Ollama, then standard)
+        explanation = explainer_agent.explain(input_data, predicted_price)
+        
+        # Determine which AI was used
+        ai_provider = "claude" if "Claude AI" in explanation else "ollama" if "Ollama AI" in explanation else "standard"
+        
+        return {
+            "predicted_price": predicted_price,
+            "explanation": explanation,
+            "market_data": market_data,
+            "ai_provider": ai_provider,
+            "claude_available": CLAUDE_AVAILABLE,
+            "ollama_available": OLLAMA_AVAILABLE,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        return {
+            "error": f"Smart prediction failed: {str(e)}",
+            "timestamp": datetime.now().isoformat()
         }
 
 # Blackboard Coordination Endpoints

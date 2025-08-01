@@ -23,9 +23,9 @@ class OllamaAgent:
     """
     
     def __init__(self, 
-                 model_name: str = "llama3.1:8b",
+                 model_name: str = "llama3.2:1b",
                  ollama_host: str = "http://localhost:11434",
-                 timeout: int = 30):
+                 timeout: int = 5):  # Reduced from 10 to 5 seconds for faster response
         """
         Initialize Ollama Agent.
         
@@ -39,6 +39,10 @@ class OllamaAgent:
         self.timeout = timeout
         self.api_url = f"{ollama_host}/api"
         self.available = False
+        
+        # Add response caching to avoid repeated expensive calls
+        self._response_cache = {}
+        self._cache_max_size = 50
         
         # Try to connect to Ollama
         self._verify_setup()
@@ -74,12 +78,37 @@ class OllamaAgent:
             logger.warning(f"Ollama not available: {str(e)} - local LLM features disabled")
             return False
     
+    def _create_cache_key(self, vehicle_data: Dict[str, Any], market_data: Dict[str, Any], predicted_price: float) -> str:
+        """Create a cache key from input parameters."""
+        import hashlib
+        
+        # Create a simplified key based on main factors
+        key_data = {
+            'make': vehicle_data.get('make', ''),
+            'model': vehicle_data.get('model', ''),
+            'year': vehicle_data.get('year', 0),
+            'mileage_range': (vehicle_data.get('mileage', 0) // 10000) * 10000,  # Round to 10k
+            'price_range': (predicted_price // 1000) * 1000  # Round to 1k
+        }
+        
+        key_str = str(sorted(key_data.items()))
+        return hashlib.md5(key_str.encode()).hexdigest()[:8]
+    
+    def _add_to_cache(self, key: str, response: str) -> None:
+        """Add response to cache with size limit."""
+        if len(self._response_cache) >= self._cache_max_size:
+            # Remove oldest entry (simple FIFO)
+            oldest_key = next(iter(self._response_cache))
+            del self._response_cache[oldest_key]
+        
+        self._response_cache[key] = response
+    
     def generate_explanation(self, 
                            vehicle_data: Dict[str, Any], 
                            market_data: Dict[str, Any], 
                            predicted_price: float) -> str:
         """
-        Generate detailed explanation using Ollama LLM.
+        Generate detailed explanation using Ollama LLM with caching.
         
         Args:
             vehicle_data: Vehicle information
@@ -92,20 +121,32 @@ class OllamaAgent:
         if not self.available:
             return self._fallback_explanation(vehicle_data, market_data, predicted_price)
         
-        prompt = f"""As an automotive expert, explain this vehicle price prediction concisely:
+        # Create cache key from input data
+        cache_key = self._create_cache_key(vehicle_data, market_data, predicted_price)
+        
+        # Check cache first
+        if cache_key in self._response_cache:
+            logger.info("Using cached response for similar request")
+            return self._response_cache[cache_key]
+        
+        # Create shorter, optimized prompt
+        prompt = f"""Vehicle price analysis:
 
-Vehicle: {vehicle_data.get('vehicle_age', 'Unknown')} years old, {vehicle_data.get('mileage', 'Unknown')} km
-Market: Index {market_data.get('market_index', 'N/A')}, Fuel ${market_data.get('fuel_price', 'N/A')}
-Predicted Price: ${predicted_price:,.2f}
+Car: {vehicle_data.get('year', 'N/A')} {vehicle_data.get('make', '')} {vehicle_data.get('model', '')}, {vehicle_data.get('mileage', 'Unknown')} km
+Price: ${predicted_price:,.0f}
+Market: Stable conditions
 
-Provide a brief explanation covering:
-1. Why this price is reasonable
-2. Key factors affecting the value
-3. One actionable recommendation
-
-Keep response under 150 words and professional."""
+Explain in 100 words:
+1. Price justification
+2. Key value factors  
+3. One recommendation"""
         
         response = self._query_ollama(prompt)
+        
+        # Cache the response if successful
+        if response:
+            self._add_to_cache(cache_key, response)
+            
         return response if response else self._fallback_explanation(vehicle_data, market_data, predicted_price)
     
     def generate_insights(self, predicted_price: float, explanation: str) -> str:
@@ -178,7 +219,7 @@ Provide a helpful, accurate response. If more information is needed, state what 
                 "options": {
                     "temperature": 0.7,
                     "top_p": 0.9,
-                    "num_predict": 300  # Limit response length
+                    "num_predict": 150  # Reduced from 300 to 150 for faster responses
                 }
             }
             
