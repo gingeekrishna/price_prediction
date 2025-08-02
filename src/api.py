@@ -72,6 +72,20 @@ except ImportError as e:
     CLAUDE_AVAILABLE = False
     logging.warning(f"Claude not available: {e}")
 
+# Initialize AWS Bedrock agent (optional)
+try:
+    from src.agents.bedrock_agent import BedrockAgent
+    BEDROCK_AVAILABLE = True
+    bedrock_agent = BedrockAgent()
+    if bedrock_agent and bedrock_agent.available:
+        logging.info("AWS Bedrock agent initialized successfully")
+    else:
+        BEDROCK_AVAILABLE = False
+        logging.info("AWS Bedrock agent not available - check AWS credentials")
+except ImportError as e:
+    BEDROCK_AVAILABLE = False
+    logging.warning(f"AWS Bedrock not available: {e}")
+
 app = FastAPI(title="Vehicle Price Prediction API")
 
 # Configure paths
@@ -500,6 +514,111 @@ async def claude_status():
             "message": "Claude not available. Set ANTHROPIC_API_KEY environment variable to enable Claude AI features."
         }
 
+@app.post("/predict_with_bedrock")
+async def predict_with_bedrock(request: Request, payload: dict, response: Response):
+    """Enhanced prediction with AWS Bedrock foundation models."""
+    # Add cache-control headers
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    
+    vehicle_age = payload.get("vehicle_age")
+    mileage = payload.get("mileage")
+    make = payload.get("make", "Unknown")
+    model = payload.get("model", "Unknown")
+    year = payload.get("year")
+    bedrock_model = payload.get("bedrock_model", "anthropic.claude-3-sonnet-20240229-v1:0")  # Default Bedrock model
+    
+    try:
+        # Initialize agents
+        market_agent = MarketDataAgent()
+        model_agent = PriceModelAgent()
+        
+        # Use Bedrock-enabled explainer
+        explainer_agent = ExplainerAgentRAG(use_bedrock=True, llm_provider="bedrock")
+        
+        # Collect market data
+        market_data = market_agent.collect_market_data()
+        
+        # Make prediction
+        input_data = {
+            "vehicle_age": vehicle_age,
+            "mileage": mileage,
+            "market_index": market_data.get("market_index", 1000),
+            "fuel_price": market_data.get("fuel_price", 3.5),
+            "make": make,
+            "model": model,
+            "year": year
+        }
+        
+        predicted_price = model_agent.predict_price(input_data)
+        
+        # Generate Bedrock-powered explanation
+        explanation = explainer_agent.explain(input_data, predicted_price)
+        
+        # Generate recommendation
+        recommendation = "🔮 Advanced AI analysis complete. AWS Bedrock provides enterprise-grade foundation model insights."
+        
+        # Log prediction to database
+        log_data = {
+            "vehicle_age": vehicle_age,
+            "mileage": mileage,
+            "predicted_price": predicted_price,
+            "explanation": explanation,
+            "llm_provider": "bedrock",
+            "bedrock_model": bedrock_model
+        }
+        
+        await database.execute(
+            "INSERT INTO predictions (vehicle_age, mileage, predicted_price, explanation, timestamp) VALUES (:vehicle_age, :mileage, :predicted_price, :explanation, :timestamp)",
+            {**log_data, "timestamp": datetime.now().isoformat()}
+        )
+        
+        return {
+            "predicted_price": predicted_price,
+            "explanation": explanation,
+            "recommendation": recommendation,
+            "market_data": market_data,
+            "llm_provider": "bedrock",
+            "bedrock_model": bedrock_model,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        print(f"Error in Bedrock prediction: {str(e)}")
+        return {
+            "error": f"Prediction failed: {str(e)}",
+            "llm_provider": "bedrock",
+            "timestamp": datetime.now().isoformat()
+        }
+
+@app.get("/bedrock/status")
+async def bedrock_status():
+    """Check AWS Bedrock availability."""
+    try:
+        from src.agents.bedrock_agent import BedrockAgent
+        bedrock_agent = BedrockAgent()
+        if bedrock_agent.available:
+            return {
+                "available": True,
+                "models": bedrock_agent.available_models,
+                "status": "connected",
+                "provider": "AWS Bedrock",
+                "region": bedrock_agent.region
+            }
+        else:
+            return {
+                "available": False,
+                "status": "not_connected",
+                "message": "AWS Bedrock not available. Check AWS credentials and region configuration."
+            }
+    except Exception as e:
+        return {
+            "available": False,
+            "status": "error",
+            "message": f"Bedrock status check failed: {str(e)}"
+        }
+
 @app.post("/predict_with_ai")
 async def predict_with_ai(request: Request, payload: dict, response: Response):
     """Smart prediction that auto-selects the best available AI (Claude > Ollama > Standard)."""
@@ -521,6 +640,7 @@ async def predict_with_ai(request: Request, payload: dict, response: Response):
         
         # Use smart explainer with auto LLM selection
         explainer_agent = ExplainerAgentRAG(
+            use_bedrock=BEDROCK_AVAILABLE,
             use_claude=CLAUDE_AVAILABLE, 
             use_ollama=OLLAMA_AVAILABLE, 
             llm_provider="auto"
@@ -542,17 +662,21 @@ async def predict_with_ai(request: Request, payload: dict, response: Response):
         
         predicted_price = model_agent.predict_price(input_data)
         
-        # Generate smart explanation (tries Claude first, then Ollama, then standard)
+        # Generate smart explanation (tries Bedrock first, then Claude, then Ollama, then standard)
         explanation = explainer_agent.explain(input_data, predicted_price)
         
         # Determine which AI was used
-        ai_provider = "claude" if "Claude AI" in explanation else "ollama" if "Ollama AI" in explanation else "standard"
+        ai_provider = ("bedrock" if "AWS Bedrock AI" in explanation else 
+                      "claude" if "Claude AI" in explanation else 
+                      "ollama" if "Ollama AI" in explanation else 
+                      "standard")
         
         return {
             "predicted_price": predicted_price,
             "explanation": explanation,
             "market_data": market_data,
             "ai_provider": ai_provider,
+            "bedrock_available": BEDROCK_AVAILABLE,
             "claude_available": CLAUDE_AVAILABLE,
             "ollama_available": OLLAMA_AVAILABLE,
             "timestamp": datetime.now().isoformat()

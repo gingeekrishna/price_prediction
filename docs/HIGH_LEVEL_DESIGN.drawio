@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2025-08-02T12:00:00.000Z" agent="5.0" etag="hld124" version="24.6.4" type="device">
+  <diagram name="System Overview" id="overview">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="title" value="Vehicle Price Prediction System - High Level Design with AWS Bedrock" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="150" y="20" width="1100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="overview-box" value="SYSTEM OVERVIEW" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="50" y="80" width="1300" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="purpose" value="PURPOSE&#xa;&#xa;Enterprise AI-powered vehicle price prediction system with multi-LLM architecture&#xa;• AWS Bedrock integration (Claude, Titan, AI21, Cohere)&#xa;• Accurate ML-based price estimation (85% confidence)&#xa;• Transparent AI explanations with intelligent fallback chain&#xa;• Real-time market analysis and insights&#xa;• RESTful API with comprehensive documentation&#xa;• Multi-environment deployment (local, dev, production)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="70" y="140" width="400" height="140" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="features" value="KEY FEATURES&#xa;&#xa;• Multi-LLM AI Integration (Bedrock → Claude → Ollama → Standard)&#xa;• Random Forest ML Model (RMSE: 658.05)&#xa;• 7 Specialized Agents (Multi-Agent System)&#xa;• Market Data Analysis and Trends&#xa;• AI-Powered Explanations (FAISS Vector Search)&#xa;• FastAPI REST Interface with Multiple AI Endpoints&#xa;• Modern Web Application UI with AI Provider Selection&#xa;• Comprehensive Logging, Monitoring, and Health Checks&#xa;• Docker Multi-Environment Support (Local AI, Dev, Prod)&#xa;• Organized Project Structure with Automation Scripts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1ecf1;strokeColor=#0c5460;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="490" y="140" width="400" height="140" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="business-value" value="BUSINESS VALUE&#xa;&#xa;• Enterprise AI: AWS Bedrock foundation models&#xa;• Cost Reduction: Automated pricing decisions&#xa;• Revenue Growth: Better pricing strategies&#xa;• Market Advantage: Multi-LLM competitive edge&#xa;• Operational Efficiency: Intelligent automation&#xa;• Scalability: Cloud-native architecture&#xa;• Analytics: Usage metrics and performance&#xa;• Transparency: Clear AI-powered justification&#xa;• Reliability: Multi-provider fallback system&#xa;• Development Velocity: Organized codebase" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#856404;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="910" y="140" width="400" height="140" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arch-title" value="5-LAYER ENTERPRISE ARCHITECTURE" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="50" y="300" width="1300" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="client-layer" value="CLIENT LAYER" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="100" y="360" width="1200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="client-components" value="Web Browser with AI Provider Selection | API Clients | Mobile Apps (Future) | Swagger UI | Monitoring Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#6c757d;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="400" width="1160" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="api-layer" value="API GATEWAY LAYER" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="100" y="450" width="1200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="api-components" value="FastAPI Server (Uvicorn) | Multi-AI Endpoints (/predict_with_bedrock, /predict_with_claude, /predict_with_ai) | Status Endpoints | CORS | Error Handling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#6c757d;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="490" width="1160" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-layer" value="MULTI-LLM AI ORCHESTRATION LAYER" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#ff9999;strokeColor=#cc0000;" vertex="1" parent="1">
+          <mxGeometry x="100" y="540" width="1200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-components" value="AWS Bedrock Agent (Claude, Titan, AI21, Cohere) | Claude Direct Agent | Ollama Local Agent | Mock Bedrock Agent | AI Provider Orchestrator with Intelligent Fallback" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#6c757d;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="580" width="1160" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="business-layer" value="BUSINESS LOGIC LAYER (Multi-Agent System)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="100" y="630" width="1200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="business-components" value="Main Agent (Orchestrator) | Model Agent (ML) | Market Data Agent | Explainer Agent (Multi-LLM) | Insight Agent | Logger Agent | Demo Agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#6c757d;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="670" width="1160" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="data-layer" value="DATA & INFRASTRUCTURE LAYER" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="100" y="720" width="1200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="data-components" value="Historical Vehicle Data | Market Trends | ML Model (Pickle) | SQLite Database | FAISS Vector Index | Knowledge Docs | Docker Multi-Environment | Config Management" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#6c757d;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="760" width="1160" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Flow Arrows -->
+        <mxCell id="arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#d79b00;" edge="1" parent="1" source="client-layer" target="api-layer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#d79b00;" edge="1" parent="1" source="api-layer" target="ai-layer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#cc0000;" edge="1" parent="1" source="ai-layer" target="business-layer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#82b366;" edge="1" parent="1" source="business-layer" target="data-layer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Key Features Section -->
+        <mxCell id="key-features-title" value="KEY ARCHITECTURAL DECISIONS" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="50" y="820" width="1300" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="decision1" value="Multi-LLM Architecture&#xa;&#xa;• Primary: AWS Bedrock (Enterprise)&#xa;• Secondary: Claude Direct API&#xa;• Tertiary: Ollama (Local)&#xa;• Fallback: Standard responses&#xa;• Intelligent provider selection" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ff9999;strokeColor=#cc0000;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="70" y="880" width="240" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="decision2" value="Organized Project Structure&#xa;&#xa;• config/ - Environment files&#xa;• docker/ - Multi-environment&#xa;• docs/ - Documentation&#xa;• scripts/ - Automation&#xa;• src/agents/ - AI components" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="330" y="880" width="240" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="decision3" value="Multi-Environment Support&#xa;&#xa;• Local: Mock Bedrock + Ollama&#xa;• Development: Real services&#xa;• Production: Full AWS integration&#xa;• Docker compositions for each&#xa;• Environment-specific configs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cce5ff;strokeColor=#0066cc;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="590" y="880" width="240" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="decision4" value="Agent-Based Architecture&#xa;&#xa;• Modular, maintainable design&#xa;• Perceive-Decide-Act pattern&#xa;• Specialized agent responsibilities&#xa;• Coordinated by main orchestrator&#xa;• Scalable and extensible" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#856404;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="850" y="880" width="240" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="decision5" value="Automation & DevOps&#xa;&#xa;• Setup scripts for each environment&#xa;• Health monitoring and checks&#xa;• Automated testing pipeline&#xa;• Production deployment scripts&#xa;• Comprehensive documentation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="880" width="240" height="120" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+        
+        <mxCell id="principles" value="• Separation of Concerns: Each layer has distinct responsibilities&#xa;• Modularity: Components are loosely coupled and highly cohesive&#xa;• Scalability: Architecture supports horizontal and vertical scaling&#xa;• Maintainability: Clear structure for easy updates and debugging&#xa;• Extensibility: Easy to add new features and agents" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#6c757d;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="100" y="750" width="950" height="70" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+  
+  <diagram name="Multi-Agent System" id="agents">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="agent-title" value="Multi-Agent System Design and Data Flow" style="text;strokeColor=none;fillColor=none;html=1;fontSize=22;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="600" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="main-agent" value="MAIN AGENT&#xa;(Orchestrator)&#xa;&#xa;Perceive-Decide-Act Pattern:&#xa;• PERCEIVE: Input validation&#xa;• DECIDE: Agent coordination&#xa;• ACT: Response generation&#xa;&#xa;Response Time: ~300ms" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="350" width="200" height="140" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="model-agent" value="MODEL AGENT&#xa;&#xa;• Load Random Forest model&#xa;• Feature preprocessing&#xa;• Price prediction execution&#xa;• Model validation&#xa;&#xa;Input: Vehicle features&#xa;Output: Price + confidence&#xa;Accuracy: 85%" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cce5ff;strokeColor=#0066cc;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="150" y="100" width="180" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="market-agent" value="MARKET AGENT&#xa;&#xa;• Data loading and merging&#xa;• Market trend analysis&#xa;• Real-time data processing&#xa;• External API integration&#xa;&#xa;Input: CSV files&#xa;Output: Market insights&#xa;Processing: ~150ms" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="700" y="100" width="180" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="explainer-agent" value="EXPLAINER AGENT&#xa;&#xa;• FAISS vector similarity search&#xa;• AI-powered explanations&#xa;• Feature importance analysis&#xa;• Human-readable reasoning&#xa;&#xa;Input: Prediction context&#xa;Output: Explanations&#xa;Vector DB: 384 dimensions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6ffe6;strokeColor=#00cc44;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="150" y="600" width="180" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="insight-agent" value="INSIGHT AGENT&#xa;&#xa;• Market recommendations&#xa;• Price trend analysis&#xa;• Investment advice&#xa;• Risk assessment&#xa;&#xa;Input: Market data + prediction&#xa;Output: Strategic insights&#xa;Confidence: High" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6f2;strokeColor=#cc0066;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="700" y="600" width="180" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="logger-agent" value="LOGGER AGENT&#xa;&#xa;• Prediction audit logging&#xa;• Performance metrics&#xa;• Error monitoring&#xa;• Database operations&#xa;&#xa;Input: All activities&#xa;Output: Audit trail&#xa;Storage: SQLite" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="450" y="100" width="180" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="comm1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#28a745;startArrow=classic;startFill=1;" edge="1" parent="1" source="main-agent" target="model-agent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="comm2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d6b656;startArrow=classic;startFill=1;" edge="1" parent="1" source="main-agent" target="market-agent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="comm3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#00cc44;startArrow=classic;startFill=1;" edge="1" parent="1" source="main-agent" target="explainer-agent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="comm4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#cc0066;startArrow=classic;startFill=1;" edge="1" parent="1" source="main-agent" target="insight-agent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="comm5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666;startArrow=classic;startFill=1;" edge="1" parent="1" source="main-agent" target="logger-agent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="patterns-title" value="DESIGN PATTERNS" style="text;strokeColor=none;fillColor=none;html=1;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="950" y="300" width="200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="patterns" value="• Orchestrator Pattern: Main Agent coordinates&#xa;• Observer Pattern: Logger monitors all&#xa;• Strategy Pattern: Different algorithms&#xa;• Factory Pattern: Agent creation&#xa;• Chain of Responsibility: Sequential processing&#xa;• Command Pattern: Task execution&#xa;• Facade Pattern: Simple API interface" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#6c757d;fontSize=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="950" y="340" width="200" height="140" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metrics-title" value="PERFORMANCE METRICS" style="text;strokeColor=none;fillColor=none;html=1;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="950" y="500" width="200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metrics" value="• Training RMSE: 658.05&#xa;• Test RMSE: 2670.00&#xa;• Prediction Accuracy: ~85%&#xa;• Response Time: 200-500ms&#xa;• Concurrent Users: 50-100&#xa;• Requests/Second: 100-200&#xa;• Model Features: 4&#xa;• Model Size: ~50MB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1ecf1;strokeColor=#0c5460;fontSize=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="950" y="540" width="200" height="140" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

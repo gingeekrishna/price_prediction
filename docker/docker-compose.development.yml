@@ -1,0 +1,93 @@
+# Development Docker Compose Configuration
+
+version: '3.8'
+
+services:
+  # Vehicle Price Prediction API - Development Mode
+  vehicle_price_api:
+    build: 
+      context: ..
+      dockerfile: Dockerfile.dev
+    container_name: vehicle_price_api_dev
+    ports:
+      - "8000:8000"
+      - "5678:5678"  # Debug port
+    environment:
+      # Development AI Configuration
+      - OLLAMA_AVAILABLE=true
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - BEDROCK_USE_MOCK=true
+      - BEDROCK_FALLBACK_TO_MOCK=true
+      - CLAUDE_AVAILABLE=false
+      - DEBUG=true
+    env_file:
+      - ../config/.env.local
+    volumes:
+      - ../src:/app/src:rw
+      - ../logs:/app/logs
+      - ../data:/app/data
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: "no"
+    networks:
+      - vehicle_price_dev_network
+
+  # Ollama service for local LLM
+  ollama:
+    image: ollama/ollama:latest
+    container_name: vehicle_price_ollama_dev
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - vehicle_price_dev_network
+
+  # Redis for development caching
+  redis:
+    image: redis:7-alpine
+    container_name: vehicle_price_redis_dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - vehicle_price_dev_network
+
+  # PostgreSQL for development (optional)
+  postgres:
+    image: postgres:15-alpine
+    container_name: vehicle_price_postgres_dev
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=vehicle_price_dev
+      - POSTGRES_USER=dev_user
+      - POSTGRES_PASSWORD=dev_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - vehicle_price_dev_network
+
+volumes:
+  ollama_data:
+    driver: local
+  redis_data:
+    driver: local
+  postgres_data:
+    driver: local
+
+networks:
+  vehicle_price_dev_network:
+    driver: bridge

@@ -29,15 +29,16 @@ import logging
 logger = logging.getLogger(__name__)
 
 class ExplainerAgentRAG:
-    def __init__(self, use_mock=True, use_ollama=True, use_claude=False, llm_provider="ollama"):
+    def __init__(self, use_mock=True, use_ollama=True, use_claude=False, use_bedrock=False, llm_provider="ollama"):
         """
         Initialize ExplainerAgentRAG with multiple LLM options.
         
         Args:
             use_mock: Use mock embeddings and chat completion
             use_ollama: Enable Ollama LLM support
-            use_claude: Enable Claude LLM support  
-            llm_provider: Primary LLM provider ("ollama", "claude", or "auto")
+            use_claude: Enable Claude LLM support
+            use_bedrock: Enable AWS Bedrock LLM support
+            llm_provider: Primary LLM provider ("ollama", "claude", "bedrock", or "auto")
         """
         if use_mock:
             self.embeddings = DummyEmbeddings()
@@ -59,8 +60,10 @@ class ExplainerAgentRAG:
         self.llm_provider = llm_provider
         self.use_ollama = use_ollama
         self.use_claude = use_claude
+        self.use_bedrock = use_bedrock
         self.ollama_agent = None
         self.claude_agent = None
+        self.bedrock_agent = None
         
         # Initialize Ollama agent if requested
         if use_ollama:
@@ -89,6 +92,20 @@ class ExplainerAgentRAG:
             except Exception as e:
                 logger.warning(f"Claude initialization failed: {e}")
                 self.use_claude = False
+        
+        # Initialize Bedrock agent if requested
+        if use_bedrock:
+            try:
+                from .bedrock_agent import BedrockAgent
+                self.bedrock_agent = BedrockAgent()
+                if self.bedrock_agent.available:
+                    logger.info("AWS Bedrock agent initialized for enhanced explanations")
+                else:
+                    self.use_bedrock = False
+                    logger.info("AWS Bedrock not available - check AWS credentials")
+            except Exception as e:
+                logger.warning(f"Bedrock initialization failed: {e}")
+                self.use_bedrock = False
 
     def explain(self, input_data, predicted_price):
         """Generate explanation using the best available LLM provider."""
@@ -109,7 +126,12 @@ class ExplainerAgentRAG:
         }
         
         # Try providers based on preference and availability
-        if self.llm_provider == "claude" and self.use_claude and self.claude_agent:
+        if self.llm_provider == "bedrock" and self.use_bedrock and self.bedrock_agent:
+            explanation = self._try_bedrock_explanation(vehicle_data, market_data, predicted_price)
+            if explanation:
+                return f"🔮 AWS Bedrock AI Analysis:\n\n{explanation}"
+                
+        elif self.llm_provider == "claude" and self.use_claude and self.claude_agent:
             explanation = self._try_claude_explanation(vehicle_data, market_data, predicted_price)
             if explanation:
                 return f"🧠 Claude AI Analysis:\n\n{explanation}"
@@ -120,7 +142,12 @@ class ExplainerAgentRAG:
                 return f"🤖 Ollama AI Analysis:\n\n{explanation}"
                 
         elif self.llm_provider == "auto":
-            # Try Claude first (faster), then Ollama, then fallback
+            # Try Bedrock first (cloud power), then Claude (fast), then Ollama, then fallback
+            if self.use_bedrock and self.bedrock_agent:
+                explanation = self._try_bedrock_explanation(vehicle_data, market_data, predicted_price)
+                if explanation:
+                    return f"🔮 AWS Bedrock AI Analysis:\n\n{explanation}"
+                    
             if self.use_claude and self.claude_agent:
                 explanation = self._try_claude_explanation(vehicle_data, market_data, predicted_price)
                 if explanation:
@@ -134,6 +161,20 @@ class ExplainerAgentRAG:
         # Fallback to standard RAG-based explanation
         return self._standard_explanation(input_data, predicted_price)
     
+    def _try_bedrock_explanation(self, vehicle_data, market_data, predicted_price):
+        """Try to generate explanation using AWS Bedrock."""
+        try:
+            if self.bedrock_agent and self.bedrock_agent.available:
+                explanation = self.bedrock_agent.generate_explanation(
+                    vehicle_data, market_data, predicted_price
+                )
+                if explanation and explanation.strip() and "error" not in explanation.lower():
+                    logger.info("Generated explanation using AWS Bedrock")
+                    return explanation
+        except Exception as e:
+            logger.warning(f"Bedrock explanation failed: {e}")
+        return None
+
     def _try_claude_explanation(self, vehicle_data, market_data, predicted_price):
         """Try to generate explanation using Claude."""
         try:

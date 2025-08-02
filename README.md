@@ -3,36 +3,41 @@
 [![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
 [![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://www.docker.com/)
+[![AWS Bedrock](https://img.shields.io/badge/AWS-Bedrock-orange.svg)](https://aws.amazon.com/bedrock/)
 [![Cross Platform](https://img.shields.io/badge/platform-windows%20%7C%20macOS%20%7C%20linux-lightgrey.svg)](https://github.com/gingeekrishna/price_prediction)
-[![AI Powered](https://img.shields.io/badge/AI-Claude%20%2B%20Ollama-purple.svg)](https://anthropic.com/)
+[![AI Powered](https://img.shields.io/badge/AI-Bedrock%20%2B%20Claude%20%2B%20Ollama-purple.svg)](https://anthropic.com/)
 
-A comprehensive **AI-powered** machine learning system for predicting vehicle prices using historical vehicle data, real-time market trends, and advanced **multi-LLM architecture**. This project implements an intelligent agent-based prices using historical vehicle data, real-time market trends, and advanced **multi-LLM architecture**. This project implements an intelligent agent-based architecture with RESTful API endpoints for seamless integration across Windows, macOS, and Linux platforms.
+A comprehensive **AI-powered** machine learning system for predicting vehicle prices using historical vehicle data, real-time market trends, and advanced **multi-LLM architecture** with **AWS Bedrock integration**. This project implements an intelligent agent-based architecture with RESTful API endpoints for seamless integration across Windows, macOS, and Linux platforms.
 
 ## 🚀 Features
 
-### 🤖 **Multi-LLM AI Integration (NEW!)**
-- **� Claude AI Integration**: Premium explanations using Anthropic's Claude-3-Opus model
-- **🔄 Intelligent Fallbacks**: Claude → Ollama → Standard explanations with smart provider selection
-- **⚡ Performance Optimized**: Ollama response time improved by 59% (22.4s → 9.2s)
+### 🤖 **Enterprise Multi-LLM AI Integration**
+- **🔮 AWS Bedrock Integration**: Enterprise-grade AI with Claude, Titan, AI21 Jurassic, and Cohere Command models
+- **🧠 Claude AI Integration**: Premium explanations using Anthropic's Claude-3-Opus model
+- **🔄 Intelligent Fallbacks**: Bedrock → Claude → Ollama → Standard explanations with smart provider selection
+- **⚡ Performance Optimized**: Multi-threaded AI processing with response caching
 - **🎯 Smart AI Selection**: Automatic best-available AI provider routing
+- **🏠 Local Development**: Mock Bedrock agent for offline development
 
 ### 🏗️ **Enhanced Architecture**
-- **�🤖 Advanced ML Pipeline**: Random Forest-based price prediction with comprehensive model evaluation
+- **🤖 Advanced ML Pipeline**: Random Forest-based price prediction with comprehensive model evaluation
 - **🏗️ Agent-Based Architecture**: Modular agent system following perceive-decide-act paradigm
 - **🌐 RESTful API**: FastAPI-powered endpoints with **multiple AI-powered prediction routes**
 - **📊 Data Integration**: Seamless merging of historical vehicle data with market trends
-- **🧪 Comprehensive Testing**: Full test suite including AI agent performance testing
-- **🐳 Production Ready**: Containerized deployment with Docker support
+- **🧪 Comprehensive Testing**: Full test suite including Bedrock integration testing
+- **🐳 Production Ready**: Multi-environment Docker configurations (local, development, production)
 
 ### 🌟 **AI-Powered Endpoints**
 - **`/predict`** - Standard vehicle price predictions
-- **`/predict_with_claude`** - Premium AI explanations using Claude (NEW!)
-- **`/predict_with_ai`** - Smart AI selection with automatic fallbacks (NEW!)
-- **`/claude/status`** - Claude availability checking (NEW!)
-- **� Performance Monitoring**: Real-time bottleneck analysis and optimization
+- **`/predict_with_bedrock`** - Enterprise AI explanations using AWS Bedrock (NEW!)
+- **`/predict_with_claude`** - Premium AI explanations using Claude
+- **`/predict_with_ai`** - Smart AI selection with automatic fallbacks
+- **`/bedrock/status`** - Bedrock service availability checking (NEW!)
+- **`/claude/status`** - Claude availability checking
+- **📊 Performance Monitoring**: Real-time bottleneck analysis and optimization
 
 ### 🔧 **Enhanced User Experience**
-- **🎨 Modern Web Interface**: Beautiful, responsive design with AI branding
+- **🎨 Modern Web Interface**: Beautiful, responsive design with AI provider selection
 - **📱 Mobile Optimized**: Works seamlessly on desktop and mobile devices
 - **⚡ Real-time Predictions**: Sub-second response times for price estimates
 - **🔄 Cross-Platform**: Works seamlessly on Windows, macOS, and Linux
@@ -41,13 +46,31 @@ A comprehensive **AI-powered** machine learning system for predicting vehicle pr
 
 ```
 vehicle-price-agent-multi/
-├── src/                          # Main source code
-│   ├── agent.py                  # Main prediction agent (perceive-decide-act)
-│   ├── model.py                  # ML model training and evaluation
-│   ├── data_loader.py            # Data loading and preprocessing
-│   ├── api.py                    # FastAPI REST endpoints with AI integration
-│   ├── retriever.py              # Data retrieval utilities
-│   ├── explainer.py              # Model explanation utilities
+├── 📁 config/                    # Configuration files
+│   ├── .env.local                # Local development environment
+│   ├── .env.development          # Development environment
+│   └── .env.production           # Production environment
+├── 📁 docker/                    # Docker configurations
+│   ├── docker-compose.local-ai.yml      # Local AI development
+│   ├── docker-compose.development.yml   # Development environment
+│   └── docker-compose.production.yml    # Production environment
+├── 📁 docs/                      # Documentation
+│   ├── BEDROCK_INTEGRATION.md           # Bedrock integration guide
+│   ├── BEDROCK_IMPLEMENTATION_SUMMARY.md # Implementation summary
+│   └── PROJECT_STRUCTURE.md            # Detailed project structure
+├── 📁 scripts/                  # Utility scripts
+│   ├── setup_development.sh           # Development setup
+│   ├── deploy_production.sh           # Production deployment
+│   ├── health_check.sh               # Health monitoring
+│   └── test_bedrock_integration.py   # Bedrock testing
+├── 📁 src/                      # Main source code
+│   ├── 📁 agents/               # AI agents
+│   │   ├── bedrock_agent.py           # AWS Bedrock integration
+│   │   ├── mock_bedrock_agent.py      # Mock for local development
+│   │   └── explainer_agent.py         # Multi-LLM explanations
+│   ├── agent.py                  # Main prediction agent
+│   ├── api.py                    # FastAPI REST endpoints
+│   └── model.py                  # ML model implementation
 │   └── agents/                   # Specialized agent modules
 │       ├── market_agent.py       # Market data collection agent
 │       ├── model_agent.py        # ML model management agent

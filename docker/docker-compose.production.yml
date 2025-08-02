@@ -1,0 +1,61 @@
+# Production Docker Compose Configuration
+
+version: '3.8'
+
+services:
+  # Vehicle Price Prediction API
+  vehicle_price_api:
+    build: .
+    container_name: vehicle_price_api_prod
+    ports:
+      - "8000:8000"
+    environment:
+      # Production AI Configuration
+      - OLLAMA_AVAILABLE=false
+      - BEDROCK_USE_MOCK=false
+      - CLAUDE_AVAILABLE=true
+      - AWS_DEFAULT_REGION=us-east-1
+    env_file:
+      - ./config/.env.production
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    networks:
+      - vehicle_price_network
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: vehicle_price_redis_prod
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - vehicle_price_network
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: vehicle_price_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/ssl:/etc/ssl:ro
+    depends_on:
+      - vehicle_price_api
+    restart: unless-stopped
+    networks:
+      - vehicle_price_network
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  vehicle_price_network:
+    driver: bridge

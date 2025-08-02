@@ -69,6 +69,10 @@ uvicorn==0.35.0
 yarl==1.20.1
 zstandard==0.23.0
 
+# AWS Bedrock Dependencies
+boto3==1.35.83
+botocore==1.35.83
+
 # MCP (Model Context Protocol) Dependencies
 # Note: Install from source until official PyPI release
 # model-context-protocol==0.1.0

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" modified="2025-07-28T07:30:00.000Z" agent="5.0" etag="abc123" version="24.6.4" type="device">
+<mxfile host="app.diagrams.net" modified="2025-08-02T12:00:00.000Z" agent="5.0" etag="abc124" version="24.6.4" type="device">
   <diagram name="System Architecture" id="architecture">
-    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         
-        <mxCell id="title" value="Vehicle Price Prediction System - Architecture &amp; Flow" style="text;strokeColor=none;fillColor=none;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
-          <mxGeometry x="284" y="20" width="600" height="40" as="geometry" />
+        <mxCell id="title" value="Vehicle Price Prediction System - Multi-LLM Architecture with AWS Bedrock" style="text;strokeColor=none;fillColor=none;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="900" height="40" as="geometry" />
         </mxCell>
         
         <mxCell id="client-layer" value="CLIENT LAYER" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
-          <mxGeometry x="50" y="80" width="1070" height="40" as="geometry" />
+          <mxGeometry x="50" y="80" width="1300" height="40" as="geometry" />
         </mxCell>
         
-        <mxCell id="web-browser" value="Web Browser&#xa;(HTML Interface)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+        <mxCell id="web-browser" value="Web Browser&#xa;(React/HTML)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="80" y="140" width="120" height="60" as="geometry" />
         </mxCell>
         
@@ -22,7 +22,7 @@
           <mxGeometry x="240" y="140" width="120" height="60" as="geometry" />
         </mxCell>
         
-        <mxCell id="mobile-app" value="Mobile App&#xa;(Future)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;opacity=50;" vertex="1" parent="1">
+        <mxCell id="ai-interface" value="AI Provider&#xa;Selection UI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;" vertex="1" parent="1">
           <mxGeometry x="400" y="140" width="120" height="60" as="geometry" />
         </mxCell>
         
@@ -30,24 +30,37 @@
           <mxGeometry x="560" y="140" width="120" height="60" as="geometry" />
         </mxCell>
         
+        <mxCell id="monitoring-ui" value="Monitoring&#xa;Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#856404;" vertex="1" parent="1">
+          <mxGeometry x="720" y="140" width="120" height="60" as="geometry" />
+        </mxCell>
+        
         <mxCell id="api-layer" value="API GATEWAY LAYER" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="50" y="240" width="1070" height="40" as="geometry" />
+          <mxGeometry x="50" y="240" width="1300" height="40" as="geometry" />
         </mxCell>
         
         <mxCell id="fastapi-server" value="FastAPI Server&#xa;(Uvicorn)&#xa;:8000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="300" y="300" width="200" height="80" as="geometry" />
+          <mxGeometry x="400" y="300" width="200" height="80" as="geometry" />
         </mxCell>
         
-        <mxCell id="cors" value="CORS&#xa;Middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-          <mxGeometry x="120" y="320" width="80" height="40" as="geometry" />
+        <!-- API Endpoints -->
+        <mxCell id="standard-endpoint" value="/predict" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="80" y="320" width="80" height="40" as="geometry" />
         </mxCell>
         
-        <mxCell id="error-handler" value="Error&#xa;Handling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-          <mxGeometry x="220" y="320" width="80" height="40" as="geometry" />
+        <mxCell id="bedrock-endpoint" value="/predict_with_bedrock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ff9999;strokeColor=#cc0000;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="320" width="100" height="40" as="geometry" />
         </mxCell>
         
-        <mxCell id="static-files" value="Static Files&#xa;Handler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-          <mxGeometry x="520" y="320" width="80" height="40" as="geometry" />
+        <mxCell id="claude-endpoint" value="/predict_with_claude" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;" vertex="1" parent="1">
+          <mxGeometry x="300" y="320" width="80" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-endpoint" value="/predict_with_ai" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cce5ff;strokeColor=#0066cc;" vertex="1" parent="1">
+          <mxGeometry x="620" y="320" width="80" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="status-endpoints" value="Status&#xa;Endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#856404;" vertex="1" parent="1">
+          <mxGeometry x="720" y="320" width="80" height="40" as="geometry" />
         </mxCell>
         
         <mxCell id="templates" value="Jinja2&#xa;Templates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
@@ -64,25 +77,59 @@
         
         <mxCell id="model-agent" value="Price Model Agent&#xa;&#xa;• Loads ML model (Random Forest)&#xa;• Feature preprocessing&#xa;• Price prediction&#xa;• Model validation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="240" y="480" width="140" height="100" as="geometry" />
+        
+        <mxCell id="business-layer" value="MULTI-LLM AI ORCHESTRATION LAYER" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#ff9999;strokeColor=#cc0000;" vertex="1" parent="1">
+          <mxGeometry x="50" y="400" width="1300" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- AWS Bedrock Integration -->
+        <mxCell id="bedrock-agent" value="AWS Bedrock Agent&#xa;&#xa;• Claude-3-Opus&#xa;• Amazon Titan&#xa;• AI21 Jurassic&#xa;• Cohere Command&#xa;• Multi-model routing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ff9999;strokeColor=#cc0000;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="460" width="140" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="claude-agent" value="Claude Direct Agent&#xa;&#xa;• Anthropic Claude-3&#xa;• Direct API access&#xa;• Premium explanations&#xa;• Fallback provider" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="230" y="460" width="140" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ollama-agent" value="Ollama Local Agent&#xa;&#xa;• Local LLM hosting&#xa;• Llama2/Mistral&#xa;• Offline capability&#xa;• Development mode" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cce5ff;strokeColor=#0066cc;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="390" y="460" width="140" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="mock-bedrock" value="Mock Bedrock Agent&#xa;&#xa;• Local development&#xa;• Simulated responses&#xa;• Testing support&#xa;• Offline mode" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#856404;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="550" y="460" width="140" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-orchestrator" value="AI Provider Orchestrator&#xa;&#xa;• Smart fallback chain&#xa;• Performance monitoring&#xa;• Load balancing&#xa;• Response caching" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="710" y="460" width="140" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="agent-layer" value="BUSINESS LOGIC LAYER (Multi-Agent System)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="50" y="600" width="1300" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="main-agent" value="Main Agent&#xa;(Orchestrator)&#xa;&#xa;• Perceive input&#xa;• Decide strategy&#xa;• Act on results&#xa;• Coordinate sub-agents" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="660" width="140" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="model-agent" value="Model Agent&#xa;&#xa;• ML predictions&#xa;• Feature engineering&#xa;• Model evaluation&#xa;• Confidence scoring" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="240" y="660" width="140" height="120" as="geometry" />
         </mxCell>
         
         <mxCell id="market-agent" value="Market Data Agent&#xa;&#xa;• Real-time market trends&#xa;• External API integration&#xa;• Market index calculation&#xa;• Fuel price tracking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
-          <mxGeometry x="400" y="480" width="140" height="100" as="geometry" />
+          <mxGeometry x="400" y="660" width="140" height="120" as="geometry" />
         </mxCell>
         
-        <mxCell id="explainer-agent" value="Explainer Agent&#xa;&#xa;• AI-powered explanations&#xa;• Feature importance&#xa;• Price justification&#xa;• FAISS vector search" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
-          <mxGeometry x="560" y="480" width="140" height="100" as="geometry" />
+        <mxCell id="explainer-agent" value="Explainer Agent&#xa;&#xa;• Multi-LLM explanations&#xa;• Feature importance&#xa;• Price justification&#xa;• FAISS vector search" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="660" width="140" height="120" as="geometry" />
         </mxCell>
         
         <mxCell id="insight-agent" value="Insight Agent&#xa;&#xa;• Market recommendations&#xa;• Price trend analysis&#xa;• Investment advice&#xa;• Risk assessment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
-          <mxGeometry x="720" y="480" width="140" height="100" as="geometry" />
+          <mxGeometry x="720" y="660" width="140" height="120" as="geometry" />
         </mxCell>
         
         <mxCell id="logger-agent" value="Logger Agent&#xa;&#xa;• Prediction logging&#xa;• Audit trail&#xa;• Performance metrics&#xa;• Error tracking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
-          <mxGeometry x="880" y="480" width="140" height="100" as="geometry" />
-        </mxCell>
-        
-        <mxCell id="data-layer" value="DATA LAYER" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="880" y="660" width="140" height="120" as="geometry" />
+        </mxCell>        <mxCell id="data-layer" value="DATA LAYER" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
           <mxGeometry x="50" y="620" width="1070" height="40" as="geometry" />
         </mxCell>
         
@@ -110,8 +157,33 @@
           <mxGeometry x="780" y="680" width="120" height="80" as="geometry" />
         </mxCell>
         
-        <mxCell id="external-apis" value="External APIs&#xa;(Future)&#xa;&#xa;• OpenAI GPT&#xa;• Market data feeds&#xa;• Real-time pricing&#xa;• Weather data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;opacity=50;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="external-apis" value="AWS Bedrock&#xa;(Cloud Service)&#xa;&#xa;• Claude-3-Opus&#xa;• Amazon Titan&#xa;• AI21 Jurassic&#xa;• Cohere Command" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ff9999;strokeColor=#cc0000;fontSize=10;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="920" y="680" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Multi-LLM Flow Arrows -->
+        <mxCell id="bedrock-arrow" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#cc0000;" edge="1" parent="1" source="bedrock-endpoint" target="bedrock-agent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="claude-arrow" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#28a745;" edge="1" parent="1" source="claude-endpoint" target="claude-agent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="orchestrator-arrow" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1" source="ai-endpoint" target="ai-orchestrator">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="fallback-arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#cc0000;strokeDashArray=5 5;" edge="1" parent="1" source="ai-orchestrator" target="bedrock-agent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="fallback-arrow2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#28a745;strokeDashArray=5 5;" edge="1" parent="1" source="ai-orchestrator" target="claude-agent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="fallback-arrow3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#0066cc;strokeDashArray=5 5;" edge="1" parent="1" source="ai-orchestrator" target="ollama-agent">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         
         <mxCell id="arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="web-browser" target="fastapi-server">
@@ -178,54 +250,43 @@
           <mxGeometry x="1200" y="80" width="80" height="30" as="geometry" />
         </mxCell>
         
-        <mxCell id="legend-client" value="Client Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+        <!-- Infrastructure Flows -->
+        <mxCell id="docker-flow" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0066cc;" edge="1" parent="1" source="fastapi-server" target="main-agent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend" value="LEGEND" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="80" width="160" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-bedrock" value="AWS Bedrock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ff9999;strokeColor=#cc0000;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="120" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-claude" value="Claude AI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="1200" y="120" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-ollama" value="Ollama Local" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cce5ff;strokeColor=#0066cc;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="160" width="80" height="30" as="geometry" />
         </mxCell>
         
         <mxCell id="legend-api" value="API Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="1200" y="160" width="80" height="30" as="geometry" />
         </mxCell>
         
-        <mxCell id="legend-agent" value="Agent Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="legend-agent" value="Agent System" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="200" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-infra" value="Infrastructure" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="1200" y="200" width="80" height="30" as="geometry" />
-        </mxCell>
-        
-        <mxCell id="legend-data" value="Data Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f3ff;strokeColor=#0066cc;fontSize=10;" vertex="1" parent="1">
-          <mxGeometry x="1200" y="240" width="80" height="30" as="geometry" />
-        </mxCell>
-        
-        <mxCell id="legend-future" value="Future Features" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;opacity=50;fontSize=10;" vertex="1" parent="1">
-          <mxGeometry x="1200" y="280" width="80" height="30" as="geometry" />
         </mxCell>
         
       </root>
     </mxGraphModel>
   </diagram>
-  
-  <diagram name="Data Flow" id="dataflow">
-    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        
-        <mxCell id="flow-title" value="Vehicle Price Prediction - Data Flow &amp; Process" style="text;strokeColor=none;fillColor=none;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
-          <mxGeometry x="284" y="20" width="600" height="40" as="geometry" />
-        </mxCell>
-        
-        <mxCell id="user-input" value="1. User Input&#xa;&#xa;• Vehicle Age: 5 years&#xa;• Mileage: 50,000 miles&#xa;• Make: Toyota&#xa;• Model: Camry" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="80" y="100" width="150" height="80" as="geometry" />
-        </mxCell>
-        
-        <mxCell id="api-request" value="2. API Request&#xa;&#xa;POST /predict&#xa;Content-Type: application/json&#xa;{&#xa;  vehicle_age: 5,&#xa;  mileage: 50000,&#xa;  make: &quot;Toyota&quot;,&#xa;  model: &quot;Camry&quot;&#xa;}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
-          <mxGeometry x="280" y="100" width="180" height="80" as="geometry" />
-        </mxCell>
-        
-        <mxCell id="main-processing" value="3. Main Agent Processing&#xa;&#xa;• Validate input data&#xa;• Initialize prediction context&#xa;• Coordinate agent tasks&#xa;• Orchestrate workflow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="500" y="100" width="160" height="80" as="geometry" />
-        </mxCell>
-        
-        <mxCell id="data-loading" value="4. Data Loading &amp; Merging&#xa;&#xa;• Load historical_vehicle_data.csv&#xa;• Load market_trends.csv&#xa;• Merge on date column&#xa;• Handle missing values" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
-          <mxGeometry x="80" y="220" width="160" height="80" as="geometry" />
+</mxfile>
         </mxCell>
         
         <mxCell id="feature-engineering" value="5. Feature Engineering&#xa;&#xa;• Extract features:&#xa;  - vehicle_age&#xa;  - mileage&#xa;  - market_index&#xa;  - fuel_price&#xa;• Normalize/scale data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">

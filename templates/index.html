@@ -112,6 +112,15 @@
                 <option value="poor">Poor</option>
             </select>
 
+            <label for="ai_provider">AI Analysis Provider:</label>
+            <select id="ai_provider" name="ai_provider">
+                <option value="auto">🎯 Smart Auto-Select (Recommended)</option>
+                <option value="bedrock">🔮 AWS Bedrock (Enterprise AI)</option>
+                <option value="claude">🧠 Claude AI (Advanced Reasoning)</option>
+                <option value="ollama">🤖 Ollama (Local AI)</option>
+                <option value="standard">📊 Standard Analysis</option>
+            </select>
+
             <button type="submit">🤖 Get AI Price Prediction</button>
         </form>
 
@@ -128,6 +137,7 @@
             const year = document.getElementById("year").value;
             const mileage = document.getElementById("mileage").value;
             const condition = document.getElementById("condition").value;
+            const aiProvider = document.getElementById("ai_provider").value;
             
             const resultDiv = document.getElementById("predictionResult");
             const errorDiv = document.getElementById("errorMessage");
@@ -151,11 +161,37 @@
                 return;
             }
 
-            // Show loading
-            resultDiv.innerHTML = '<div class="loading">🤖 AI is analyzing your vehicle... This may take 10-15 seconds.</div>';
+            // Determine the API endpoint based on provider selection
+            let endpoint = "/predict";
+            let loadingMessage = "🤖 AI is analyzing your vehicle...";
+            
+            switch(aiProvider) {
+                case "bedrock":
+                    endpoint = "/predict_with_bedrock";
+                    loadingMessage = "🔮 AWS Bedrock is analyzing your vehicle with enterprise AI...";
+                    break;
+                case "claude":
+                    endpoint = "/predict_with_claude";
+                    loadingMessage = "🧠 Claude AI is analyzing your vehicle with advanced reasoning...";
+                    break;
+                case "ollama":
+                    endpoint = "/predict_with_ollama";
+                    loadingMessage = "🤖 Ollama local AI is analyzing your vehicle...";
+                    break;
+                case "auto":
+                    endpoint = "/predict_with_ai";
+                    loadingMessage = "🎯 Smart AI is selecting the best analysis method...";
+                    break;
+                default:
+                    endpoint = "/predict";
+                    loadingMessage = "📊 Analyzing your vehicle...";
+            }
 
-            // Send request to enhanced API
-            fetch("/predict", {
+            // Show loading with provider-specific message
+            resultDiv.innerHTML = `<div class="loading">${loadingMessage} This may take 10-15 seconds.</div>`;
+
+            // Send request to the selected API endpoint
+            fetch(endpoint, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ 
@@ -163,7 +199,8 @@
                     model: model,
                     year: parseInt(year),
                     mileage: parseInt(mileage),
-                    condition: condition
+                    condition: condition,
+                    vehicle_age: new Date().getFullYear() - parseInt(year)
                 })
             })
             .then(res => {
@@ -173,8 +210,29 @@
                 return res.json();
             })
             .then(data => {
+                let providerIcon = "📊";
+                let providerName = "Standard";
+                
+                // Determine the provider icon and name
+                if (data.llm_provider === "bedrock" || data.ai_provider === "bedrock") {
+                    providerIcon = "🔮";
+                    providerName = "AWS Bedrock";
+                } else if (data.llm_provider === "claude" || data.ai_provider === "claude") {
+                    providerIcon = "🧠";
+                    providerName = "Claude AI";
+                } else if (data.llm_provider === "ollama" || data.ai_provider === "ollama") {
+                    providerIcon = "🤖";
+                    providerName = "Ollama AI";
+                } else if (data.ai_provider === "auto") {
+                    providerIcon = "🎯";
+                    providerName = "Smart Auto-Select";
+                }
+
                 let resultHTML = `
                     <h3>💰 Predicted Price: $${data.predicted_price.toLocaleString()}</h3>
+                    <div style="margin-top: 10px; padding: 8px; background-color: #f0f0f0; border-radius: 5px;">
+                        <small>${providerIcon} Analyzed by: <strong>${providerName}</strong></small>
+                    </div>
                 `;
                 
                 if (data.explanation) {
@@ -189,7 +247,7 @@
                 if (data.recommendation) {
                     resultHTML += `
                         <div style="margin-top: 15px;">
-                            <h4>� AI Recommendations:</h4>
+                            <h4>💡 AI Recommendations:</h4>
                             <p style="white-space: pre-line; line-height: 1.6;">${data.recommendation}</p>
                         </div>
                     `;
@@ -201,6 +259,26 @@
                             <strong>📊 Market Data:</strong> Index: ${data.market_data.market_index}, Fuel Price: $${data.market_data.fuel_price}
                         </div>
                     `;
+                }
+
+                // Show availability status
+                if (data.bedrock_available !== undefined || data.claude_available !== undefined || data.ollama_available !== undefined) {
+                    resultHTML += `
+                        <div style="margin-top: 15px; font-size: 0.8em; color: #888; border-top: 1px solid #ddd; padding-top: 10px;">
+                            <strong>AI Providers Status:</strong><br>
+                    `;
+                    
+                    if (data.bedrock_available !== undefined) {
+                        resultHTML += `🔮 Bedrock: ${data.bedrock_available ? '✅ Available' : '❌ Unavailable'}<br>`;
+                    }
+                    if (data.claude_available !== undefined) {
+                        resultHTML += `🧠 Claude: ${data.claude_available ? '✅ Available' : '❌ Unavailable'}<br>`;
+                    }
+                    if (data.ollama_available !== undefined) {
+                        resultHTML += `🤖 Ollama: ${data.ollama_available ? '✅ Available' : '❌ Unavailable'}`;
+                    }
+                    
+                    resultHTML += `</div>`;
                 }
                 
                 resultDiv.innerHTML = resultHTML;

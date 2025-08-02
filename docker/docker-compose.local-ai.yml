@@ -1,0 +1,60 @@
+# Docker Setup for Local AI Development
+
+version: '3.8'
+
+services:
+  # Ollama service for local LLM
+  ollama:
+    image: ollama/ollama:latest
+    container_name: vehicle_price_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+  # Your Vehicle Price Prediction API with Local AI
+  vehicle_price_api:
+    build: .
+    container_name: vehicle_price_api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.local
+    environment:
+      # Local AI Configuration
+      - OLLAMA_AVAILABLE=true
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - BEDROCK_USE_MOCK=true
+      - BEDROCK_FALLBACK_TO_MOCK=true
+      - CLAUDE_AVAILABLE=false
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: vehicle_price_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
+    driver: local
+  redis_data:
+    driver: local
