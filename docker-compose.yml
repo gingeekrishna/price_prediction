@@ -1,6 +1,24 @@
 version: '3.8'
 
 services:
+  # Ollama service for local LLM
+  ollama:
+    image: ollama/ollama:latest
+    container_name: vehicle-price-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
   # Main application service
   app:
     build: 
@@ -11,7 +29,11 @@ services:
     ports:
       - "8000:8000"
     environment:
-      # AI Configuration
+      # AI Configuration - Updated for Ollama
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - USE_OLLAMA=true
+      - OLLAMA_MODEL=llama3.2:3b
+      - EMBEDDING_MODEL=nomic-embed-text:latest
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       
@@ -22,6 +44,10 @@ services:
       
       # Database Configuration
       - DATABASE_URL=${DATABASE_URL:-sqlite:////app/predictions.db}
+      
+      # Cache Configuration
+      - USE_REDIS_CACHE=true
+      - REDIS_URL=redis://redis:6379/0
       
       # Performance Configuration
       - WORKERS=${WORKERS:-1}
@@ -45,7 +71,10 @@ services:
       start_period: 40s
     
     depends_on:
-      - redis
+      ollama:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     
     networks:
       - vehicle-price-network
@@ -123,6 +152,30 @@ services:
     profiles:
       - monitoring
 
+  # Ollama model setup service
+  ollama-setup:
+    image: ollama/ollama:latest
+    container_name: vehicle-price-ollama-setup
+    depends_on:
+      ollama:
+        condition: service_healthy
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=ollama:11434
+    command: >
+      sh -c "
+        echo 'Waiting for Ollama to be ready...' &&
+        sleep 10 &&
+        echo 'Pulling Ollama models...' &&
+        ollama pull llama3.2:3b &&
+        ollama pull nomic-embed-text:latest &&
+        echo 'Models downloaded successfully!'
+      "
+    restart: "no"
+    networks:
+      - vehicle-price-network
+
 # Named volumes for persistent data
 volumes:
   redis_data:
@@ -132,6 +185,8 @@ volumes:
   prometheus_data:
     driver: local
   grafana_data:
+    driver: local
+  ollama_data:
     driver: local
 
 # Custom network

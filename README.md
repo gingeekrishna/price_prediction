@@ -3,191 +3,150 @@
 [![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
 [![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://www.docker.com/)
-[![AWS Bedrock](https://img.shields.io/badge/AWS-Bedrock-orange.svg)](https://aws.amazon.com/bedrock/)
+[![LangChain](https://img.shields.io/badge/LangChain-Latest-blue.svg)](https://langchain.com/)
+[![Ollama](https://img.shields.io/badge/Ollama-Local%20AI-purple.svg)](https://ollama.ai/)
 [![Cross Platform](https://img.shields.io/badge/platform-windows%20%7C%20macOS%20%7C%20linux-lightgrey.svg)](https://github.com/gingeekrishna/price_prediction)
-[![AI Powered](https://img.shields.io/badge/AI-Bedrock%20%2B%20Claude%20%2B%20Ollama-purple.svg)](https://anthropic.com/)
+[![Production Ready](https://img.shields.io/badge/status-production%20ready-green.svg)](https://github.com/gingeekrishna/price_prediction)
 
-A comprehensive **AI-powered** machine learning system for predicting vehicle prices using historical vehicle data, real-time market trends, and advanced **multi-LLM architecture** with **AWS Bedrock integration**. This project implements an intelligent agent-based architecture with RESTful API endpoints for seamless integration across Windows, macOS, and Linux platforms.
+A **production-ready AI-powered** vehicle price prediction system implementing **4 core frameworks**: **LangChain Integration**, **ML Model Price Prediction**, **RAG Integration**, and **Vector Search**. Features local AI deployment with Ollama, comprehensive caching with Redis, and enterprise-grade architecture designed for scalability and performance.
 
-## 🚀 Features
+## 🎯 Production Framework Features
 
-### 🤖 **Enterprise Multi-LLM AI Integration**
-- **🔮 AWS Bedrock Integration**: Enterprise-grade AI with Claude, Titan, AI21 Jurassic, and Cohere Command models
-- **🧠 Claude AI Integration**: Premium explanations using Anthropic's Claude-3-Opus model
-- **🔄 Intelligent Fallbacks**: Bedrock → Claude → Ollama → Standard explanations with smart provider selection
-- **⚡ Performance Optimized**: Multi-threaded AI processing with response caching
-- **🎯 Smart AI Selection**: Automatic best-available AI provider routing
-- **🏠 Local Development**: Mock Bedrock agent for offline development
+### 🏗️ **Core Architecture - 4 Frameworks Implementation**
 
-### 🏗️ **Enhanced Architecture**
-- **🤖 Advanced ML Pipeline**: Random Forest-based price prediction with comprehensive model evaluation
-- **🏗️ Agent-Based Architecture**: Modular agent system following perceive-decide-act paradigm
-- **🌐 RESTful API**: FastAPI-powered endpoints with **multiple AI-powered prediction routes**
-- **📊 Data Integration**: Seamless merging of historical vehicle data with market trends
-- **🧪 Comprehensive Testing**: Full test suite including Bedrock integration testing
-- **🐳 Production Ready**: Multi-environment Docker configurations (local, development, production)
+#### 1. **🔗 LangChain Integration**
+- **🤖 Multi-LLM Support**: Ollama (local) + OpenAI (cloud) with intelligent fallbacks
+- **🔄 Chain Management**: Conversation chains with context preservation
+- **⚡ Async Processing**: High-performance asynchronous AI operations
+- **🎯 Smart Routing**: Automatic provider selection based on availability
 
-### 🌟 **AI-Powered Endpoints**
-- **`/predict`** - Standard vehicle price predictions
-- **`/predict_with_bedrock`** - Enterprise AI explanations using AWS Bedrock (NEW!)
-- **`/predict_with_claude`** - Premium AI explanations using Claude
-- **`/predict_with_ai`** - Smart AI selection with automatic fallbacks
-- **`/bedrock/status`** - Bedrock service availability checking (NEW!)
-- **`/claude/status`** - Claude availability checking
-- **📊 Performance Monitoring**: Real-time bottleneck analysis and optimization
+#### 2. **🧠 ML Model Price Prediction**
+- **📊 Advanced Algorithms**: Random Forest with comprehensive feature engineering
+- **🎯 High Accuracy**: Optimized hyperparameters for precise price predictions
+- **📈 Model Monitoring**: Performance tracking and drift detection
+- **🔄 Auto-retraining**: Continuous learning from new vehicle data
 
-### 🔧 **Enhanced User Experience**
-- **🎨 Modern Web Interface**: Beautiful, responsive design with AI provider selection
-- **📱 Mobile Optimized**: Works seamlessly on desktop and mobile devices
-- **⚡ Real-time Predictions**: Sub-second response times for price estimates
-- **🔄 Cross-Platform**: Works seamlessly on Windows, macOS, and Linux
+#### 3. **🔍 RAG Integration (Retrieval-Augmented Generation)**
+- **📚 Knowledge Base**: Comprehensive vehicle documentation processing
+- **🧠 Intelligent Retrieval**: Context-aware document search and extraction
+- **💡 Enhanced Responses**: AI answers augmented with relevant knowledge
+- **📄 Multi-format Support**: PDF, TXT, MD document processing
 
-## 📁 Project Structure
+#### 4. **🔎 Vector Search**
+- **⚡ FAISS Integration**: High-performance vector similarity search
+- **🎯 Semantic Search**: Understanding context beyond keyword matching  
+- **📊 Embedding Management**: Optimized vector storage and retrieval
+- **🔍 Similarity Matching**: Find similar vehicles and market trends
+
+### 🚀 **Production Capabilities**
+
+- **🐳 Container Orchestration**: Docker Compose with Redis, Ollama, and application services
+- **🗄️ Advanced Caching**: Redis-powered caching for optimal performance
+- **🏠 Local AI Deployment**: Complete offline AI capabilities with Ollama
+- **🌐 RESTful API**: FastAPI with comprehensive OpenAPI documentation
+- **📊 Health Monitoring**: Built-in health checks and performance metrics
+- **🔧 Configuration Management**: Environment-based settings for all deployments
+- **🧪 Testing Framework**: Comprehensive test suite covering all components
+
+## 📁 Production Project Structure
 
 ```
-vehicle-price-agent-multi/
-├── 📁 config/                    # Configuration files
-│   ├── .env.local                # Local development environment
-│   ├── .env.development          # Development environment
-│   └── .env.production           # Production environment
-├── 📁 docker/                    # Docker configurations
-│   ├── docker-compose.local-ai.yml      # Local AI development
-│   ├── docker-compose.development.yml   # Development environment
-│   └── docker-compose.production.yml    # Production environment
-├── 📁 docs/                      # Documentation
-│   ├── BEDROCK_INTEGRATION.md           # Bedrock integration guide
-│   ├── BEDROCK_IMPLEMENTATION_SUMMARY.md # Implementation summary
-│   └── PROJECT_STRUCTURE.md            # Detailed project structure
-├── 📁 scripts/                  # Utility scripts
-│   ├── setup_development.sh           # Development setup
-│   ├── deploy_production.sh           # Production deployment
-│   ├── health_check.sh               # Health monitoring
-│   └── test_bedrock_integration.py   # Bedrock testing
-├── 📁 src/                      # Main source code
-│   ├── 📁 agents/               # AI agents
-│   │   ├── bedrock_agent.py           # AWS Bedrock integration
-│   │   ├── mock_bedrock_agent.py      # Mock for local development
-│   │   └── explainer_agent.py         # Multi-LLM explanations
-│   ├── agent.py                  # Main prediction agent
-│   ├── api.py                    # FastAPI REST endpoints
-│   └── model.py                  # ML model implementation
-│   └── agents/                   # Specialized agent modules
-│       ├── market_agent.py       # Market data collection agent
-│       ├── model_agent.py        # ML model management agent
-│       ├── explainer_agent.py    # Multi-LLM explanation agent (ENHANCED!)
-│       ├── claude_agent.py       # Claude AI integration (NEW!)
-│       ├── ollama_agent.py       # Optimized Ollama integration (ENHANCED!)
-│       ├── insight_agent.py      # Business insights agent
-│       └── logger_agent.py       # Logging and monitoring agent
-├── data/                         # Training and market data
-│   ├── historical_vehicle_data.csv
-│   └── market_trends.csv
-├── tests/                        # Comprehensive test suite
-│   ├── test_agent.py            # Agent functionality tests
-│   ├── test_model.py            # Model training/evaluation tests
-│   ├── test_data_loader.py      # Data processing tests
-│   ├── test_claude.py           # Claude AI integration tests (NEW!)
-│   └── test_ollama.py           # Ollama performance tests (NEW!)
-├── notebooks/                    # Jupyter notebooks for analysis
-│   ├── eda.ipynb               # Exploratory data analysis
-│   └── model_training.ipynb    # Model development
-├── frontend/                    # Web interface
-│   └── index.html              # Modern responsive UI
-├── templates/                   # Alternative web templates
-│   └── index.html              # Enhanced web interface
-├── logs/                        # Application logs
-├── knowledge_docs/              # RAG knowledge base
-├── performance_test.py          # AI performance analysis tool (NEW!)
-├── CLAUDE_INTEGRATION.md        # Claude setup guide (NEW!)
-├── PERFORMANCE_OPTIMIZATION.md  # Performance tuning guide (NEW!)
-├── static/                      # Web UI assets
-├── requirements.txt             # Python dependencies (updated with Claude)
-├── pyproject.toml              # Project configuration
-├── Dockerfile                  # Container configuration
-└── README.md                   # This file
+app/                              # 🏗️ Production application framework
+├── 📁 api/                       # 🌐 REST API layer
+│   └── main.py                   #     FastAPI application with all endpoints
+├── 📁 config/                    # ⚙️ Configuration management
+│   └── settings.py               #     Environment-based configuration
+├── 📁 data/                      # 📊 Data processing and management
+│   └── data_manager.py           #     Dataset loading and preprocessing
+├── 📁 langchain/                 # 🔗 LangChain integration framework
+│   └── chain_manager.py          #     Multi-LLM conversation management
+├── 📁 models/                    # 🧠 ML model implementation
+│   └── price_predictor.py        #     Advanced price prediction algorithms
+├── 📁 ollama/                    # 🏠 Local AI deployment
+│   └── ollama_manager.py         #     Ollama integration and management
+├── 📁 rag/                       # 🔍 RAG integration framework
+│   └── rag_engine.py             #     Knowledge retrieval and generation
+├── 📁 services/                  # 🔧 Business logic services
+│   └── prediction_service.py     #     Core prediction orchestration
+├── 📁 utils/                     # 🛠️ Utility functions
+│   └── helpers.py                #     Common utilities and helpers
+├── 📁 vector_search/             # 🔎 Vector search framework
+│   └── search_engine.py          #     Semantic search and similarity
+└── __init__.py                   #     Framework exports and initialization
+
+docker-compose.yml                # 🐳 Container orchestration
+start-with-ollama.ps1             # 🪟 Windows startup script
+start-with-ollama.sh              # 🐧 Linux/Mac startup script
+requirements.txt                  # 📦 Python dependencies
 ```
 
-## 🛠️ Cross-Platform Installation & Setup
+## 🛠️ Complete Setup Guide
 
 ### 📋 Prerequisites
 
 | Component | Windows | macOS | Linux |
 |-----------|---------|-------|-------|
-| **Python 3.11+** | [python.org](https://python.org/downloads) | `brew install python@3.11` | `sudo apt install python3.11` |
-| **Git** | [git-scm.com](https://git-scm.com) | `brew install git` | `sudo apt install git` |
-| **pip** | Included with Python | Included with Python | `sudo apt install python3-pip` |
-| **Docker** *(Optional)* | [Docker Desktop](https://docker.com/products/docker-desktop) | [Docker Desktop](https://docker.com/products/docker-desktop) | `sudo apt install docker.io` |
+| **Python 3.11+** | [Download](https://python.org/downloads) | `brew install python@3.11` | `sudo apt install python3.11` |
+| **Git** | [Download](https://git-scm.com) | `brew install git` | `sudo apt install git` |
+| **Docker** | [Docker Desktop](https://docker.com/products/docker-desktop) | [Docker Desktop](https://docker.com/products/docker-desktop) | `sudo apt install docker.io` |
+| **Docker Compose** | Included with Docker Desktop | Included with Docker Desktop | `sudo apt install docker-compose` |
 
-### 🚀 Complete Setup Guide
+### 🚀 Installation Steps
 
-#### **Step 1: System Preparation**
-
-**🪟 Windows Setup:**
-```powershell
-# Check Python version
-python --version
-
-# If Python not found, install from python.org
-# Ensure "Add Python to PATH" is checked during installation
-
-# Open PowerShell as Administrator (recommended)
-# Verify pip is available
-pip --version
-```
-
-**🍎 macOS Setup:**
+#### **Step 1: Clone Repository**
 ```bash
-# Install Homebrew (if not installed)
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# Install Python 3.11+
-brew install python@3.11
-
-# Verify installation
-python3 --version
-pip3 --version
-
-# Create alias (optional)
-echo 'alias python=python3' >> ~/.zshrc
-echo 'alias pip=pip3' >> ~/.zshrc
-source ~/.zshrc
-```
-
-**🐧 Linux (Ubuntu/Debian) Setup:**
-```bash
-# Update system packages
-sudo apt update && sudo apt upgrade -y
-
-# Install Python 3.11 and dependencies
-sudo apt install python3.11 python3.11-venv python3-pip git -y
-
-# Verify installation
-python3.11 --version
-pip3 --version
-
-# Create symlinks (optional)
-sudo ln -sf /usr/bin/python3.11 /usr/bin/python
-sudo ln -sf /usr/bin/pip3 /usr/bin/pip
-```
-
-#### **Step 2: Clone Repository**
-
-**All Platforms:**
-```bash
-# Clone the repository
+# Clone the production-ready repository
 git clone https://github.com/gingeekrishna/price_prediction.git
+cd price_prediction
 
-# Navigate to project directory
-cd price_prediction/vehicle-price-agent-multi
+# Switch to the production branch (if needed)
+git checkout feature/claude-integration-and-performance
 
-# Verify you're in the right directory
-ls -la  # Linux/macOS
+# Verify project structure
+ls -la  # Linux/Mac
 dir     # Windows
 ```
 
-#### **Step 3: Virtual Environment Setup**
+#### **Step 2: Choose Deployment Method**
 
-**🪟 Windows (PowerShell):**
+You have **3 deployment options**:
+
+### 🐳 **Option A: Full Container Deployment (Recommended)**
+
+This deploys the complete stack with Redis, Ollama, and the application:
+
+**🪟 Windows:**
+```powershell
+# Navigate to project directory
+cd price_prediction
+
+# Run the startup script
+.\start-with-ollama.ps1
+
+# Or manually with Docker Compose
+docker-compose up -d
+```
+
+**🐧 Linux/Mac:**
+```bash
+# Navigate to project directory
+cd price_prediction
+
+# Make script executable and run
+chmod +x start-with-ollama.sh
+./start-with-ollama.sh
+
+# Or manually with Docker Compose
+docker-compose up -d
+```
+
+### 🐍 **Option B: Python Direct Deployment**
+
+This runs the application directly with Python (Redis and Ollama optional):
+
+#### **Step 2.1: Python Environment Setup**
+
+**🪟 Windows:**
 ```powershell
 # Create virtual environment
 python -m venv venv
@@ -195,209 +154,391 @@ python -m venv venv
 # Activate virtual environment
 .\venv\Scripts\Activate.ps1
 
-# If execution policy error occurs:
+# If execution policy error:
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-
-# Verify activation (should show (venv) in prompt)
-python --version
 ```
 
-**🪟 Windows (Command Prompt):**
-```cmd
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-venv\Scripts\activate.bat
-
-# Verify activation
-python --version
-```
-
-**🍎 macOS:**
+**🐧 Linux/Mac:**
 ```bash
 # Create virtual environment
 python3 -m venv venv
 
 # Activate virtual environment
 source venv/bin/activate
-
-# Verify activation (should show (venv) in prompt)
-python --version
-which python  # Should point to venv directory
 ```
 
-**🐧 Linux:**
+#### **Step 2.2: Install Dependencies**
 ```bash
-# Install venv if not available
-sudo apt install python3.11-venv -y
-
-# Create virtual environment
-python3 -m venv venv
-
-# Activate virtual environment
-source venv/bin/activate
-
-# Verify activation
-python --version
-which python  # Should point to venv directory
-```
-
-#### **Step 4: Install Dependencies**
-
-**All Platforms (after venv activation):**
-```bash
-# Upgrade pip to latest version
+# Upgrade pip
 python -m pip install --upgrade pip
 
-# Install project dependencies
+# Install all dependencies
 pip install -r requirements.txt
 
-# Verify installation
-pip list | grep -E "(fastapi|uvicorn|scikit-learn|anthropic)"
+# Install additional LangChain packages
+pip install langchain-community langchain-openai
 ```
 
-**If Installation Issues Occur:**
+#### **Step 2.3: Start Services**
+
+**Start Redis (Optional - for caching):**
 ```bash
-# Clear pip cache
-pip cache purge
+# Using Docker
+docker run -d --name redis -p 6379:6379 redis:7-alpine
 
-# Install with no cache
-pip install --no-cache-dir -r requirements.txt
-
-# Force reinstall specific package
-pip install --force-reinstall uvicorn
+# Or install Redis locally and start
 ```
 
-#### **Step 5: Environment Configuration**
-
-**🪟 Windows:**
-```powershell
-# Copy environment template
-copy .env.sample .env
-
-# Edit environment file
-notepad .env  # or use your preferred editor
-
-# Set environment variables (Optional for Claude AI)
-$env:ANTHROPIC_API_KEY="your-anthropic-key-here"
-$env:OPENAI_API_KEY="your-openai-key-here"
-```
-
-**🍎 macOS / 🐧 Linux:**
+**Start the Application:**
 ```bash
-# Copy environment template
-cp .env.sample .env
+# Set environment variables
+export USE_OLLAMA=false  # Linux/Mac
+$env:USE_OLLAMA="false"  # Windows
 
-# Edit environment file
-nano .env  # or vim, code, etc.
-
-# Set environment variables (Optional for Claude AI)
-export ANTHROPIC_API_KEY="your-anthropic-key-here"
-export OPENAI_API_KEY="your-openai-key-here"
-
-# Make permanent (add to ~/.bashrc or ~/.zshrc)
-echo 'export ANTHROPIC_API_KEY="your-key"' >> ~/.bashrc
-```
-
-#### **Step 6: Run the Application**
-
-**🚀 Recommended Method (Cross-platform):**
-```bash
 # Start the application
-python run_server.py
-
-# Alternative startup methods:
-python run_app.py        # Basic startup
-python start_server.py   # Legacy method
+python -m uvicorn app.api.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-**🪟 Windows Quick Start:**
-```powershell
-# Using PowerShell script
-.\start.ps1
+### 🔧 **Option C: Development Setup**
 
-# Using batch file
-.\start.bat
-```
+For developers who want to modify and test the code:
 
-**🍎 macOS / 🐧 Linux Quick Start:**
 ```bash
-# Make script executable
-chmod +x start.sh
+# Install in development mode
+pip install -e .
 
-# Run startup script
-./start.sh
+# Install development dependencies
+pip install pytest pytest-asyncio httpx
+
+# Run tests
+python -m pytest tests/ -v
+
+# Start with auto-reload
+python -m uvicorn app.api.main:app --reload --port 8000
 ```
 
-#### **Step 7: Verify Installation**
+#### **Step 3: Verify Installation**
 
-**Test Endpoints:**
+**Check Application Status:**
 ```bash
-# Check if server is running (wait 30-60 seconds for startup)
+# Test health endpoint
 curl http://localhost:8000/health
 
 # Or open in browser:
-# - Web Interface: http://localhost:8000
+# - Main App: http://localhost:8000
 # - API Docs: http://localhost:8000/docs
 # - Health Check: http://localhost:8000/health
 ```
 
-### 🧪 **Quick Test Run**
+**Test the 4 Core Frameworks:**
 
 ```bash
-# Test basic prediction
+# 1. Test ML Model Prediction
 curl -X POST "http://localhost:8000/predict" \
      -H "Content-Type: application/json" \
      -d '{
-       "vehicle_age": 5,
-       "mileage": 50000,
        "make": "Toyota",
-       "model": "Camry",
-       "condition": "good"
-     }'
-
-# Test AI-powered prediction
-curl -X POST "http://localhost:8000/predict_with_ai" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "vehicle_age": 3,
+       "model": "Camry", 
+       "year": 2020,
        "mileage": 30000,
-       "make": "BMW",
-       "model": "3 Series",
        "condition": "excellent"
      }'
+
+# 2. Test LangChain Integration
+curl -X POST "http://localhost:8000/explain" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "prediction_id": "test_123",
+       "vehicle_data": {"make": "Toyota", "model": "Camry"}
+     }'
+
+# 3. Test RAG Integration  
+curl -X POST "http://localhost:8000/knowledge-search" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "query": "Toyota Camry reliability",
+       "max_results": 5
+     }'
+
+# 4. Test Vector Search
+curl -X POST "http://localhost:8000/vector-search" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "query": "reliable family sedan",
+       "similarity_threshold": 0.7
+     }'
 ```
 
-### 🧠 **Claude AI Setup (Optional - Premium Features)**
+## 🎯 Usage Examples
 
-To enable **premium AI-powered explanations** with Claude:
+### 🌐 **Web Interface**
 
-#### **Step 1: Get Anthropic API Key**
-1. Visit [Anthropic Console](https://console.anthropic.com/)
-2. Create account and generate API key
-3. Copy your API key (starts with `sk-ant-`)
+1. **Open Browser**: Navigate to `http://localhost:8000`
+2. **Enter Vehicle Details**: Fill in make, model, year, mileage, condition
+3. **Get Prediction**: Click "Predict Price" for ML-powered estimate
+4. **AI Explanation**: Click "Get AI Explanation" for detailed analysis
+5. **Search Knowledge**: Use "Search Knowledge Base" for vehicle insights
 
-#### **Step 2: Configure Environment Variables**
+### 📡 **API Integration**
 
-**🪟 Windows (PowerShell):**
-```powershell
-# Temporary (current session only)
-$env:ANTHROPIC_API_KEY="sk-ant-your-api-key-here"
+#### **Basic Price Prediction**
+```python
+import requests
 
-# Permanent (add to system environment)
-[Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "sk-ant-your-api-key-here", "User")
+# Predict vehicle price
+response = requests.post("http://localhost:8000/predict", json={
+    "make": "BMW",
+    "model": "X5",
+    "year": 2021,
+    "mileage": 25000,
+    "condition": "excellent"
+})
 
-# Verify
-echo $env:ANTHROPIC_API_KEY
+result = response.json()
+print(f"Predicted Price: ${result['predicted_price']:,.2f}")
+print(f"Confidence: {result['confidence']:.1%}")
 ```
 
-**🪟 Windows (Command Prompt):**
-```cmd
-# Temporary (current session only)
-set ANTHROPIC_API_KEY=sk-ant-your-api-key-here
+#### **AI-Powered Explanation**
+```python
+# Get AI explanation for prediction
+explanation_response = requests.post("http://localhost:8000/explain", json={
+    "prediction_id": result['prediction_id'],
+    "vehicle_data": {
+        "make": "BMW",
+        "model": "X5", 
+        "year": 2021,
+        "mileage": 25000
+    }
+})
 
-# Permanent (system environment)
+explanation = explanation_response.json()
+print(f"AI Explanation: {explanation['explanation']}")
+print(f"Key Factors: {explanation['factors']}")
+```
+
+#### **Knowledge Search**
+```python
+# Search knowledge base
+knowledge_response = requests.post("http://localhost:8000/knowledge-search", json={
+    "query": "BMW X5 maintenance costs",
+    "max_results": 3
+})
+
+knowledge = knowledge_response.json()
+for doc in knowledge['documents']:
+    print(f"Source: {doc['source']}")
+    print(f"Content: {doc['content'][:200]}...")
+```
+
+## 🔧 Configuration Options
+
+### 🌍 **Environment Variables**
+
+Create a `.env` file in the project root:
+
+```env
+# Application Settings
+DEBUG=true
+LOG_LEVEL=INFO
+HOST=0.0.0.0
+PORT=8000
+
+# AI Configuration
+USE_OLLAMA=true
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=llama3.2:3b
+EMBEDDING_MODEL=nomic-embed-text
+
+# OpenAI Fallback (Optional)
+OPENAI_API_KEY=your-openai-api-key-here
+OPENAI_MODEL=gpt-3.5-turbo
+
+# Redis Configuration
+REDIS_URL=redis://localhost:6379
+REDIS_DB=0
+CACHE_TTL=3600
+
+# Vector Search Settings
+VECTOR_DIMENSION=384
+SIMILARITY_THRESHOLD=0.7
+MAX_SEARCH_RESULTS=10
+
+# RAG Configuration
+KNOWLEDGE_BASE_PATH=./knowledge_docs
+CHUNK_SIZE=1000
+CHUNK_OVERLAP=200
+```
+
+### 📊 **Performance Tuning**
+
+```env
+# High Performance Settings
+WORKERS=4
+MAX_CONCURRENT_REQUESTS=100
+CACHE_SIZE=10000
+VECTOR_INDEX_MEMORY=2GB
+
+# Production Optimizations
+PRELOAD_MODELS=true
+ENABLE_CACHING=true
+LOG_TO_FILE=true
+METRICS_ENABLED=true
+```
+
+## 🐳 Container Management
+
+### 📊 **Monitor Services**
+```bash
+# Check service status
+docker-compose ps
+
+# View logs
+docker-compose logs -f app      # Application logs
+docker-compose logs -f ollama   # Ollama AI logs  
+docker-compose logs -f redis    # Redis cache logs
+
+# Monitor resource usage
+docker stats
+```
+
+### 🔄 **Service Management**
+```bash
+# Restart specific service
+docker-compose restart app
+docker-compose restart ollama
+
+# Update and redeploy
+docker-compose down
+docker-compose pull
+docker-compose up -d
+
+# Clean up
+docker-compose down -v  # Remove volumes
+docker system prune     # Clean unused images
+```
+
+## 🧪 Testing Framework
+
+### 🚀 **Run Tests**
+```bash
+# Run all tests
+python -m pytest tests/ -v
+
+# Test specific framework
+python -m pytest tests/test_langchain.py -v      # LangChain tests
+python -m pytest tests/test_models.py -v        # ML Model tests  
+python -m pytest tests/test_rag.py -v           # RAG tests
+python -m pytest tests/test_vector_search.py -v # Vector Search tests
+
+# Performance tests
+python -m pytest tests/test_performance.py -v
+
+# Integration tests
+python -m pytest tests/test_integration.py -v
+```
+
+### 📊 **Test Coverage**
+```bash
+# Install coverage tools
+pip install pytest-cov
+
+# Run with coverage
+python -m pytest --cov=app tests/ --cov-report=html
+
+# View coverage report
+open htmlcov/index.html  # Mac
+start htmlcov/index.html # Windows
+```
+
+## 🔍 Troubleshooting
+
+### ❗ **Common Issues**
+
+#### **1. Container Port Conflicts**
+```bash
+# Check what's using port 8000
+lsof -i :8000  # Mac/Linux
+netstat -ano | findstr :8000  # Windows
+
+# Kill process using port
+kill -9 <PID>  # Mac/Linux
+taskkill /PID <PID> /F  # Windows
+```
+
+#### **2. Ollama Model Download Issues**
+```bash
+# Check Ollama status
+docker-compose logs ollama
+
+# Manually pull model
+docker exec -it vehicle-price-ollama ollama pull llama3.2:3b
+
+# List available models
+docker exec -it vehicle-price-ollama ollama list
+```
+
+#### **3. Python Import Errors**
+```bash
+# Set Python path
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"  # Linux/Mac
+$env:PYTHONPATH="$env:PYTHONPATH;$(pwd)"  # Windows
+
+# Verify Python path
+python -c "import sys; print(sys.path)"
+```
+
+#### **4. Memory Issues**
+```bash
+# Increase Docker memory limit (Docker Desktop Settings > Resources)
+# Minimum recommended: 8GB RAM, 4GB to Docker
+
+# Monitor memory usage
+docker stats --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}"
+```
+
+### 📚 **Additional Resources**
+
+- **📖 API Documentation**: http://localhost:8000/docs
+- **🔧 Configuration Guide**: `app/config/settings.py`
+- **📊 Performance Monitoring**: http://localhost:8000/metrics
+- **🧠 Model Details**: http://localhost:8000/model-info
+- **❤️ Health Status**: http://localhost:8000/health
+
+### 🆘 **Get Help**
+
+1. **Check Logs**: `docker-compose logs -f app`
+2. **Test Health**: `curl http://localhost:8000/health`
+3. **Verify Config**: Review `.env` file settings
+4. **Restart Services**: `docker-compose restart`
+5. **Open Issue**: [GitHub Issues](https://github.com/gingeekrishna/price_prediction/issues)
+
+## 🎉 Success Indicators
+
+Your setup is successful when you see:
+
+✅ **Application**: `http://localhost:8000` loads the web interface  
+✅ **API Docs**: `http://localhost:8000/docs` shows interactive documentation  
+✅ **Health Check**: `http://localhost:8000/health` returns `{"status": "healthy"}`  
+✅ **Predictions**: POST to `/predict` returns price estimates  
+✅ **AI Features**: `/explain` endpoint provides intelligent explanations  
+✅ **Search**: Knowledge and vector search endpoints respond correctly  
+
+🎯 **You now have a production-ready AI vehicle price prediction system with all 4 frameworks running locally!**
+
+---
+
+## 📈 **Next Steps**
+
+1. **🎨 Customize**: Modify vehicle data and models in `app/data/`
+2. **🧠 Train**: Add your own vehicle datasets for improved accuracy  
+3. **🔌 Integrate**: Use the API endpoints in your own applications
+4. **📊 Monitor**: Set up production monitoring and logging
+5. **🚀 Scale**: Deploy to cloud platforms for production use
+
+---
+
+*For advanced configuration, custom model training, and production deployment guides, see the `/docs` folder.*
 setx ANTHROPIC_API_KEY "sk-ant-your-api-key-here"
 
 # Verify
