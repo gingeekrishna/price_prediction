@@ -121,7 +121,11 @@ class PricePredictionModel:
             await self._save_model()
             
             # Update metrics
-            await self.metrics.update_model_metrics(metrics)
+            self.metrics.record_training(
+                training_time_ms=0,  # We'd need to track this separately
+                accuracy=metrics["test_r2"],
+                samples_count=len(training_data)
+            )
             
             self.is_loaded = True
             logger.info("✅ Model training completed successfully")

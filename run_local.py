@@ -9,7 +9,8 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # Set environment variables
-os.environ['USE_OLLAMA'] = 'false'
+os.environ['USE_OLLAMA'] = 'true'
+os.environ['OLLAMA_BASE_URL'] = 'http://localhost:11434'
 os.environ['DEBUG'] = 'true'
 
 try:
@@ -17,9 +18,9 @@ try:
     from app.api.main import app
     
     print("🚀 Starting Vehicle Price Prediction Application...")
-    print("📍 URL: http://localhost:8002")
-    print("📖 API Docs: http://localhost:8002/docs")
-    print("❤️  Health Check: http://localhost:8002/health")
+    print("📍 URL: http://localhost:8003")
+    print("📖 API Docs: http://localhost:8003/docs")
+    print("❤️  Health Check: http://localhost:8003/health")
     print("🛑 Press Ctrl+C to stop the server")
     print("-" * 50)
     
@@ -27,7 +28,7 @@ try:
     uvicorn.run(
         app, 
         host="0.0.0.0", 
-        port=8002,
+        port=8003,
         log_level="info",
         reload=False
     )

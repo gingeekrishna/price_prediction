@@ -60,7 +60,7 @@ class DataPipeline:
             
             # Initialize ML model
             self.ml_model = PricePredictionModel()
-            await self.ml_model.initialize()
+            await self.ml_model.load_model()
             
             # Initialize vector search
             self.vector_search = VectorSearchEngine()
